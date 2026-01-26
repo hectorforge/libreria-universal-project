@@ -1,0 +1,6 @@
+CREATE DATABASE clientedb;
+CREATE DATABASE facturaciondb;
+CREATE DATABASE inventariodb;
+CREATE DATABASE pagodb;
+CREATE DATABASE seguridaddb;
+CREATE DATABASE ventadb;

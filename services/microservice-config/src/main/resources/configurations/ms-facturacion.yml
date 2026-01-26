@@ -6,7 +6,7 @@ spring:
     name: ms-facturacion
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/facturaciondb
+    url: jdbc:postgresql://localhost:5434/facturaciondb
     username: admin
     password: admin123
     jpa:
