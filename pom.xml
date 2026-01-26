@@ -22,6 +22,10 @@
 		<module>services/ms-pago</module>
 		<module>services/ms-seguridad</module>
 		<module>services/ms-venta</module>
+
+		<module>services/microservice-config</module>
+		<module>services/microservice-eureka</module>
+		<module>services/microservice-gateway</module>
 	</modules>
 
 	<properties>
