@@ -6,7 +6,7 @@ spring:
     name: ms-venta
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ventadb
+    url: jdbc:postgresql://localhost:5434/ventadb
     username: admin
     password: admin123
     jpa:

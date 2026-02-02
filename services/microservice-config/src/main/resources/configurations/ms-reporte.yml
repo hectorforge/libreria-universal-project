@@ -1,12 +1,12 @@
 server:
-  port: 8084
+  port: 8088
 
 spring:
   application:
-    name: ms-inventario
+    name: ms-reporte
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5434/inventariodb
+    url: jdbc:postgresql://localhost:5434/reportedb
     username: admin
     password: admin123
     jpa:
