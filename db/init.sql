@@ -4,3 +4,4 @@ CREATE DATABASE inventariodb;
 CREATE DATABASE pagodb;
 CREATE DATABASE seguridaddb;
 CREATE DATABASE ventadb;
+CREATE DATABASE reportedb;
