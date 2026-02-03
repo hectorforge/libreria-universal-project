@@ -18,10 +18,8 @@
 	<modules>
 		<module>services/ms-cliente</module>
 		<module>services/ms-inventario</module>
-		<module>services/ms-facturacion</module>
-		<module>services/ms-pago</module>
 		<module>services/ms-seguridad</module>
-		<module>services/ms-venta</module>
+		<module>services/ms-sales</module>
 		<module>services/ms-reporte</module>
 
 		<module>services/microservice-config</module>
