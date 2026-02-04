@@ -25,7 +25,7 @@ public class OperationResult<T> {
         this.errors = new HashMap<>();
     }
 
-    public static <T> OperationResult<T> success(T data, String message, int status) {
+    public static <T> OperationResult<T> isSuccess(T data, String message, int status) {
         OperationResult<T> result = new OperationResult<>();
         result.success = true;
         result.data = data;

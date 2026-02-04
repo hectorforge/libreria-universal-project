@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.microservice.venta.shared.ErrorCatalog.*;
@@ -36,7 +37,7 @@ public class VentaRestController {
             );
         }
 
-        return ResponseEntity.status(201).body(success(
+        return ResponseEntity.status(201).body(isSuccess(
                 mapper.toResponse(ventaGuardada), "Venta creada exitosamente", 201));
 
     }
@@ -45,7 +46,7 @@ public class VentaRestController {
     public ResponseEntity<?> obtenerVentaPorId(@PathVariable UUID id) {
         return service.obtenerVentaPorId(id)
                 .map(ventaModel -> ResponseEntity.ok(
-                        success(
+                        isSuccess(
                                 mapper.toResponse(ventaModel),
                                 "Venta obtenida exitosamente",
                                 200)
@@ -57,8 +58,16 @@ public class VentaRestController {
 
     @GetMapping("/v1/listar")
     public ResponseEntity<?> listarVentas() {
-        return ResponseEntity.ok(success(
+        return ResponseEntity.ok(isSuccess(
                 service.listarVentas().stream().map(mapper::toResponse),
+                "Ventas", 200));
+    }
+
+    @GetMapping("/v1/listar-fechas")
+    public ResponseEntity<?> listarVentasPorFechas(@RequestParam LocalDate fechaInicio,
+                                                  @RequestParam LocalDate fechaFin) {
+        return ResponseEntity.ok(isSuccess(
+                service.listarVentasPorFechas(fechaInicio, fechaFin).stream().map(mapper::toResponse),
                 "Ventas", 200));
     }
 

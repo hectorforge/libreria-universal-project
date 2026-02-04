@@ -8,33 +8,50 @@ server:
 spring:
   application:
     name: ms-gateway
+
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: clientes
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/cliente/**
-        - id: facturaciones
-          uri: http://localhost:8083
-          predicates:
-            - Path=/api/facturacion/**
-        - id: inventarios
-          uri: http://localhost:8084
-          predicates:
-            - Path=/api/inventario/**
-        - id: pagos
-          uri: http://localhost:8085
-          predicates:
-            - Path=/api/pago/**
-        - id: seguridad
-          uri: http://localhost:8086
-          predicates:
-            - Path=/api/seguridad/**
-        - id: ventas
-          uri: http://localhost:8087
-          predicates:
-            - Path=/api/venta/**
+      server:
+        webflux:
+
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: false
+
+          routes:
+            - id: clientes
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/cliente/**
+
+            - id: facturaciones
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/facturacion/**
+
+            - id: inventarios
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/inventario/**
+
+            - id: pagos
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/pago/**
+
+            - id: seguridad
+              uri: http://localhost:8086
+              predicates:
+                - Path=/api/seguridad/**
+
+            - id: sales
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/ventas/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG
+
