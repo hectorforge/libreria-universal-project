@@ -1,16 +1,16 @@
-package com.microservice.venta.application.service;
+package com.microservice.venta.infrastructure.adapters.output.persistence.implementacion;
 
-import com.microservice.venta.application.ports.input.DetalleVentaServicePort;
+import com.microservice.venta.application.ports.output.DetalleVentaPersistencePort;
 import com.microservice.venta.domain.model.DetalleVentaModel;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class DetalleVentaService implements DetalleVentaServicePort {
+@Component
+@AllArgsConstructor
+public class DetalleVentaPersistenceAdapter implements DetalleVentaPersistencePort {
     @Override
     public Optional<DetalleVentaModel> obtenerDetalleVentaPorId(Integer id) {
         return Optional.empty();
@@ -23,11 +23,6 @@ public class DetalleVentaService implements DetalleVentaServicePort {
 
     @Override
     public DetalleVentaModel guardarDetalleVenta(DetalleVentaModel detalleVentaModel) {
-        return null;
-    }
-
-    @Override
-    public DetalleVentaModel actualizarDetalleVenta(Integer id, DetalleVentaModel detalleVentaModel) {
         return null;
     }
 

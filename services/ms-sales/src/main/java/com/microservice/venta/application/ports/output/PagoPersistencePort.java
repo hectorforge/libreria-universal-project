@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public interface PagoPersistencePort {
 
-    Optional<PagoModel> obtenerPagoPorId(UUID id);
+    Optional<PagoModel> obtenerPagoPorId(Integer id);
     List<PagoModel> listarPagos();
     PagoModel guardarPago(PagoModel pagoModel);
-    void cancelarPago(UUID id);
+    void cancelarPago(Integer id);
 
 }

@@ -9,11 +9,11 @@ spring:
     url: jdbc:postgresql://localhost:5434/seguridaddb
     username: admin
     password: admin123
-    jpa:
-      hibernate:
-        ddl-auto: update
-      database: PostgreSQL
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: PostgreSQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   eureka:
     instance:
