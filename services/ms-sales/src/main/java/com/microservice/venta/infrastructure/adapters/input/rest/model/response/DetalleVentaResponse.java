@@ -1,4 +1,4 @@
-package com.microservice.venta.domain.model;
+package com.microservice.venta.infrastructure.adapters.input.rest.model.response;
 
 import lombok.*;
 
@@ -9,13 +9,12 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DetalleVentaModel {
+public class DetalleVentaResponse {
 
     private Integer id;
     private UUID productoId;
     private Integer cantidad;
     private Double precioUnitario;
-    private Double subtotal; //NO DTO
+    private Double subtotal;
 
-    private VentaModel venta;
 }

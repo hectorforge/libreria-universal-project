@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public interface DetalleVentaPersistencePort {
 
-    Optional<DetalleVentaModel> obtenerDetalleVentaPorId(UUID id);
+    Optional<DetalleVentaModel> obtenerDetalleVentaPorId(Integer id);
     List<DetalleVentaModel> listarDetalleVenta();
     DetalleVentaModel guardarDetalleVenta(DetalleVentaModel detalleVentaModel);
-    void eliminarDetalleVenta(UUID id);
+    void eliminarDetalleVenta(Integer id);
 
 }

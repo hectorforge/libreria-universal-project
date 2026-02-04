@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public interface DetalleVentaServicePort {
 
-    Optional<DetalleVentaModel> obtenerDetalleVentaPorId(UUID id);
+    Optional<DetalleVentaModel> obtenerDetalleVentaPorId(Integer id);
     List<DetalleVentaModel> listarDetalleVenta();
     DetalleVentaModel guardarDetalleVenta(DetalleVentaModel detalleVentaModel);
-    DetalleVentaModel actualizarDetalleVenta(UUID id, DetalleVentaModel detalleVentaModel);
-    void eliminarDetalleVenta(UUID id);
+    DetalleVentaModel actualizarDetalleVenta(Integer id, DetalleVentaModel detalleVentaModel);
+    void eliminarDetalleVenta(Integer id);
 
 }

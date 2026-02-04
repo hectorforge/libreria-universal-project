@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public interface PagoServicePort {
 
-    Optional<PagoModel> obtenerPagoPorId(UUID id);
+    Optional<PagoModel> obtenerPagoPorId(Integer id);
     List<PagoModel> listarPagos();
     PagoModel guardarPago(PagoModel pagoModel);
-    PagoModel actualizarPago(UUID id, PagoModel pagoModel);
-    void cancelarPago(UUID id);
+    PagoModel actualizarPago(Integer id, PagoModel pagoModel);
+    void cancelarPago(Integer id);
 
 }
