@@ -1,6 +1,5 @@
 package com.microservice.venta.infrastructure.adapters.output.persistence.implementacion;
 
-import com.microservice.venta.application.ports.input.VentaServicePort;
 import com.microservice.venta.application.ports.output.VentaPersistencePort;
 import com.microservice.venta.domain.exception.VentaNotException;
 import com.microservice.venta.domain.model.VentaModel;
