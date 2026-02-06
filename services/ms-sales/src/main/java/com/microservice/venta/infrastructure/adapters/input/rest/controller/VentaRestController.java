@@ -3,9 +3,13 @@ package com.microservice.venta.infrastructure.adapters.input.rest.controller;
 import com.microservice.venta.application.service.VentaService;
 import com.microservice.venta.infrastructure.adapters.input.rest.mapper.VentaRestMapper;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.request.VentaRequest;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.DniResponse;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
+import com.microservice.venta.infrastructure.adapters.output.persistence.implementacion.VentaPersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -69,6 +73,16 @@ public class VentaRestController {
         return ResponseEntity.ok(isSuccess(
                 service.listarVentasPorFechas(fechaInicio, fechaFin).stream().map(mapper::toResponse),
                 "Ventas", 200));
+    }
+
+    @GetMapping("/sunat/ruc/{numero}")
+    public Mono<SunatResponse> consultarRuc(@PathVariable String numero) {
+        return service.consultarRuc(numero);
+    }
+
+    @GetMapping("/reniec/dni/{numero}")
+    public Mono<DniResponse> consultarDni(@PathVariable String numero) {
+        return service.consultarDni(numero);
     }
 
 }

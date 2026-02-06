@@ -3,6 +3,8 @@ package com.microservice.venta.application.service;
 import com.microservice.venta.application.ports.input.VentaServicePort;
 import com.microservice.venta.application.ports.output.VentaPersistencePort;
 import com.microservice.venta.domain.model.VentaModel;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.DniResponse;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaReactivoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,5 +59,15 @@ public class VentaService implements VentaServicePort {
     @Override
     public Mono<VentaReactivoResponse> obtenerVentaReactivoPorId(UUID id) {
         return null;
+    }
+
+    @Override
+    public Mono<SunatResponse> consultarRuc(String ruc) {
+        return ventaPersistencePort.consultarRuc(ruc);
+    }
+
+    @Override
+    public Mono<DniResponse> consultarDni(String dni) {
+        return ventaPersistencePort.consultarDni(dni);
     }
 }
