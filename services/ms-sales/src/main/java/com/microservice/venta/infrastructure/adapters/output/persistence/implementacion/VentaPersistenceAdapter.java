@@ -4,7 +4,10 @@ import com.microservice.venta.application.ports.input.VentaServicePort;
 import com.microservice.venta.application.ports.output.VentaPersistencePort;
 import com.microservice.venta.domain.exception.VentaNotException;
 import com.microservice.venta.domain.model.VentaModel;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.DniResponse;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaReactivoResponse;
+import com.microservice.venta.infrastructure.adapters.output.client.response.SunatClient;
 import com.microservice.venta.infrastructure.adapters.output.persistence.entity.VentaEntity;
 import com.microservice.venta.infrastructure.adapters.output.persistence.mapper.VentaPersistenceMapper;
 import com.microservice.venta.infrastructure.adapters.output.persistence.repository.VentaRepository;
@@ -24,6 +27,7 @@ import java.util.UUID;
 public class VentaPersistenceAdapter implements VentaPersistencePort {
 
     private final VentaRepository repository;
+    private final SunatClient sunatClient;
 
     @Override
     public Optional<VentaModel> obtenerVentaPorId(UUID id) {
@@ -133,4 +137,14 @@ public class VentaPersistenceAdapter implements VentaPersistencePort {
                 .mapToDouble(detalle -> detalle.getPrecioUnitario() * detalle.getCantidad())
                 .sum();
     }
+
+    // Validar Ruc/DNI Cliente
+    public Mono<SunatResponse> consultarRuc(String ruc) {
+        return sunatClient.obtenerUsuarioSunat(ruc);
+    }
+
+    public Mono<DniResponse> consultarDni(String dni) {
+        return sunatClient.ObtenerUsuarioReniec(dni);
+    }
+
 }
