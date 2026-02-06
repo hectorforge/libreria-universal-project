@@ -1,0 +1,51 @@
+package com.microservice.inventario.shared.response.pagination;
+
+import lombok.Builder;
+import lombok.Value;
+
+import java.util.List;
+
+@Value
+@Builder
+public class PaginaResult<T> {
+
+    List<T> contenido;
+    int paginaActual;
+    int tamanio;
+    long totalElementos;
+    int totalPaginas;
+    boolean primera;
+    boolean ultima;
+    boolean vacia;
+
+    public static <T> PaginaResult<T> of(List<T> contenido, int pagina, int tamanio, long total) {
+        int totalPaginas = (int) Math.ceil((double) total / tamanio);
+        return PaginaResult.<T>builder()
+                .contenido(contenido)
+                .paginaActual(pagina)
+                .tamanio(tamanio)
+                .totalElementos(total)
+                .totalPaginas(totalPaginas)
+                .primera(pagina == 0)
+                .ultima(pagina >= totalPaginas - 1)
+                .vacia(contenido.isEmpty())
+                .build();
+    }
+
+    public <R> PaginaResult<R> map(java.util.function.Function<? super T, ? extends R> mapper) {
+        List<R> nuevoContenido = this.contenido.stream()
+                .map(mapper)
+                .collect(java.util.stream.Collectors.toList());
+
+        return PaginaResult.<R>builder()
+                .contenido(nuevoContenido)
+                .paginaActual(this.paginaActual)
+                .tamanio(this.tamanio)
+                .totalElementos(this.totalElementos)
+                .totalPaginas(this.totalPaginas)
+                .primera(this.primera)
+                .ultima(this.ultima)
+                .vacia(nuevoContenido.isEmpty())
+                .build();
+    }
+}
