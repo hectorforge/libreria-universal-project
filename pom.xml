@@ -25,6 +25,8 @@
 		<module>services/microservice-config</module>
 		<module>services/microservice-eureka</module>
 		<module>services/microservice-gateway</module>
+		<module>services/common</module>
+		<module>services/common</module>
 	</modules>
 
 	<properties>
