@@ -1,5 +1,6 @@
 package com.microservice.cliente.domain.cliente.ports.out;
 
+import com.libreriauniversal.PagedResult;
 import com.microservice.cliente.domain.cliente.Cliente;
 import com.microservice.cliente.domain.cliente.utils.ClienteFiltro;
 
@@ -31,10 +32,10 @@ public interface IClienteRepositoryOutPort {
 
     /**
      * Obtiene todos los clientes.
-     * @param filtro Filtros de búsqueda para los clientes
+     * @param filtros Filtros de búsqueda para los clientes
      * @param page Número de página para paginación
      * @param size Tamaño de página para paginación
      * @return Lista de clientes
      */
-    List<Cliente> findAll(ClienteFiltro filtro, int page, int size);
+    PagedResult<Cliente> findAll(ClienteFiltro filtros, int page, int size);
 }

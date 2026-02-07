@@ -20,7 +20,7 @@ public interface IClienteServiceInPort {
      * @param cliente
      * @return OperationResult con el cliente actualizado o errores
      */
-    OperationResult<Cliente> update(Cliente cliente);
+    OperationResult<Cliente> update(UUID id, Cliente cliente);
 
     /**
      * Elimina un cliente por su ID.

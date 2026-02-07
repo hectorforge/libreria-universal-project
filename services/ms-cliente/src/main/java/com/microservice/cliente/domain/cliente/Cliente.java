@@ -1,6 +1,7 @@
 package com.microservice.cliente.domain.cliente;
 import com.libreriauniversal.BaseEntity;
 import com.microservice.cliente.domain.common.TipoCliente;
+import com.microservice.cliente.domain.common.TipoDocumento;
 
 public class Cliente extends BaseEntity {
     private String keycloakId;
@@ -8,8 +9,7 @@ public class Cliente extends BaseEntity {
     private String nombre;
     private String email;
     private TipoCliente tipoPersona;
-    private String dni;
-    private String ruc;
+    private TipoDocumento tipoDocumento;
     private String rol;
 
     public Cliente() {
@@ -55,20 +55,12 @@ public class Cliente extends BaseEntity {
         this.tipoPersona = tipoPersona;
     }
 
-    public String getDni() {
-        return dni;
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    public String getRuc() {
-        return ruc;
-    }
-
-    public void setRuc(String ruc) {
-        this.ruc = ruc;
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
     }
 
     public String getRol() {

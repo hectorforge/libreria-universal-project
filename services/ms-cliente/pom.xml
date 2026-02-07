@@ -31,6 +31,11 @@
 		<spring-cloud.version>2025.0.1</spring-cloud.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.libreriauniversal</groupId>
 			<artifactId>common</artifactId>
@@ -71,6 +76,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>annotationProcessor</scope>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
