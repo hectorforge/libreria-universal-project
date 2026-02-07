@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ClienteService implements IClienteServiceInPort {
-    private final IClienteRepositoryOutPort clienteRepository;
+    private IClienteRepositoryOutPort clienteRepository;
 
     @Override
     public OperationResult<Cliente> create(Cliente cliente) {
