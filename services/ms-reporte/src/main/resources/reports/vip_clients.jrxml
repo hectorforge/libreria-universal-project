@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vip_clients" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <parameter name="reportTitle" class="java.lang.String"/>
+    <field name="clientName" class="java.lang.String"/>
+    <field name="email" class="java.lang.String"/>
+    <field name="totalPurchased" class="java.math.BigDecimal"/>
+    <title>
+        <band height="50">
+            <textField>
+                <reportElement x="0" y="10" width="555" height="30"/>
+                <textElement textAlignment="Center"><font size="16" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30">
+            <staticText><reportElement x="0" y="0" width="200" height="30"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Cliente]]></text></staticText>
+            <staticText><reportElement x="200" y="0" width="200" height="30"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Email]]></text></staticText>
+            <staticText><reportElement x="400" y="0" width="155" height="30"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Total Comprado]]></text></staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="30">
+            <textField><reportElement x="0" y="0" width="200" height="30"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{clientName}]]></textFieldExpression></textField>
+            <textField><reportElement x="200" y="0" width="200" height="30"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{email}]]></textFieldExpression></textField>
+            <textField><reportElement x="400" y="0" width="155" height="30"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{totalPurchased}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+</jasperReport>

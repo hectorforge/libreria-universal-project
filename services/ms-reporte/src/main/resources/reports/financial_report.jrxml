@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="financial_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <parameter name="reportTitle" class="java.lang.String"/>
+    <parameter name="dateRange" class="java.lang.String"/>
+    <field name="dateLabel" class="java.lang.String"/>
+    <field name="income" class="java.math.BigDecimal"/>
+    <field name="tax" class="java.math.BigDecimal"/>
+    <field name="net" class="java.math.BigDecimal"/>
+    <title>
+        <band height="60" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="30" width="555" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{dateRange}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Fecha / Periodo]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="138" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Venta Bruta (S/.)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="276" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Impuesto (IGV)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="414" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Venta Neta (S/.)]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="30" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{dateLabel}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="138" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{income}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="276" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{tax}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="414" y="0" width="138" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{net}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>
