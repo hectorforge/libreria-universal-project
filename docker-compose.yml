@@ -14,6 +14,7 @@ services:
     networks:
       - micro_net
 
+ ## Usuario Administrador por defecto correo: admin@gmail.com password:admin
   keycloak:
     image: quay.io/keycloak/keycloak:26.5.2
     container_name: keycloak
