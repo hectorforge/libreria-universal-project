@@ -16,9 +16,9 @@ public class CategoriaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_categoria")
     private UUID id;
-
     private String nombre;
     private String descripcion;
-    private Boolean estado;
+    private boolean estado;
 }

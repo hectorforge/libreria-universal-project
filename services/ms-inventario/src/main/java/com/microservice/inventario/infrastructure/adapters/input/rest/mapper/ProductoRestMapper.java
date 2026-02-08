@@ -19,7 +19,6 @@ import java.util.List;
 public interface ProductoRestMapper {
 
     // ===== Request → Dominio =====
-    @Mapping(target = "categoria", source = "categoria")
     Producto toProducto(ProductoCreateRequest request);
 
     // ===== Dominio → Response =====
@@ -28,22 +27,22 @@ public interface ProductoRestMapper {
     List<ProductoResponse> toProductoResponseList(List<Producto> productos);
 
     // ===== Producto + Inventario =====
-    default ProductoInventarioResponse toProductoInventarioResponse(
-            Producto producto,
-            Inventario inventario
-    ) {
-        return new ProductoInventarioResponse(
-                producto.getId(),
-                producto.getCodigo(),
-                producto.getNombre(),
-                producto.getDescripcion(),
-                producto.getPrecioActual(),
-                producto.isEstado(),
-                producto.getUrlImagen(),
-                producto.getCategoria() != null ? producto.getCategoria().getId() : null,
-                producto.getCategoria() != null ? producto.getCategoria().getNombre() : null,
-                inventario.getStockActual(),
-                inventario.getStockMinimo()
-        );
-    }
+//    default ProductoInventarioResponse toProductoInventarioResponse(
+//            Producto producto,
+//            Inventario inventario
+//    ) {
+//        return new ProductoInventarioResponse(
+//                producto.getId(),
+//                producto.getCodigo(),
+//                producto.getNombre(),
+//                producto.getDescripcion(),
+//                producto.getPrecioActual(),
+//                producto.isEstado(),
+//                producto.getUrlImagen(),
+//                producto.getCategoria() != null ? producto.getCategoria().getId() : null,
+//                producto.getCategoria() != null ? producto.getCategoria().getNombre() : null,
+//                inventario.getStockActual(),
+//                inventario.getStockMinimo()
+//        );
+//    }
 }

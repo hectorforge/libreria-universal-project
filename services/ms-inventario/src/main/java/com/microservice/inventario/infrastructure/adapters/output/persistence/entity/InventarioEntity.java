@@ -15,12 +15,13 @@ import java.util.UUID;
 public class InventarioEntity {
 
     @Id
-
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_inventario")
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID productoId;
+    @ManyToOne
+    @JoinColumn(name = "id_producto", nullable = false)
+    private ProductoEntity productoId;
 
     private Integer stockActual;
     private Integer stockMinimo;

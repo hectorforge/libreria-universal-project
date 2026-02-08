@@ -1,6 +1,7 @@
 package com.microservice.inventario.application.ports.input;
 
 import com.microservice.inventario.domain.model.Producto;
+import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoInventarioResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,5 +24,7 @@ public interface ProductoServicePort {
     List<Producto> listarProductosPorCategoria(UUID categoriaId);
 
     void eliminarProducto(UUID id);
+
+    Optional<ProductoInventarioResponse> obtenerProductoInventarioPorId(UUID id);
 
 }

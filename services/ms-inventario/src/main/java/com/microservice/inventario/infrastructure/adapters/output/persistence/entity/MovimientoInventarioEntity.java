@@ -18,10 +18,11 @@ public class MovimientoInventarioEntity {
     @Id
 
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_movimiento_inventario")
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "id_producto", nullable = false)
     private ProductoEntity producto;
 
     @Enumerated(EnumType.STRING)

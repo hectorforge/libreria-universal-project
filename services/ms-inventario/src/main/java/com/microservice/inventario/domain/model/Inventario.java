@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Inventario {
 
     private UUID id;
-    private Producto producto;
+    private Producto productoId;
     private int stockActual;
     private int stockMinimo;
 }

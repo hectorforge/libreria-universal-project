@@ -1,6 +1,7 @@
 package com.microservice.inventario.infrastructure.adapters.input.rest;
 
 import com.microservice.inventario.application.ports.input.CategoriaServicePort;
+import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.CategoriaResponseMapperManual;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.CategoriaRestMapper;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.CategoriaCreateRequest;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.CategoriaResponse;
@@ -26,7 +27,10 @@ public class CategoriaRestAdapter {
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(
                 OperationResult.isSuccess(
-                        restMapper.toCategoriaResponseList(servicePort.listarCategoria()),
+                        servicePort.listarCategoria()
+                                .stream()
+                                .map(CategoriaResponseMapperManual::toCategoriaResponse)
+                                .toList(),
                         "Lista de categorías",
                         200
                 )
@@ -37,7 +41,7 @@ public class CategoriaRestAdapter {
     public ResponseEntity<?> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(
                 OperationResult.isSuccess(
-                        restMapper.toCategoriaResponse(
+                        CategoriaResponseMapperManual.toCategoriaResponse(
                                 servicePort.obtenerCategoriaPorId(id)
                         ),
                         "Categoría obtenida",
@@ -52,9 +56,9 @@ public class CategoriaRestAdapter {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 OperationResult.isSuccess(
-                        restMapper.toCategoriaResponse(
+                        CategoriaResponseMapperManual.toCategoriaResponse(
                                 servicePort.registrarCategoria(
-                                        restMapper.toCategoria(request)
+                                        CategoriaResponseMapperManual.toModel(request)
                                 )
                         ),
                         "Categoría creada exitosamente",
@@ -70,10 +74,10 @@ public class CategoriaRestAdapter {
     ) {
         return ResponseEntity.ok(
                 OperationResult.isSuccess(
-                        restMapper.toCategoriaResponse(
+                        CategoriaResponseMapperManual.toCategoriaResponse(
                                 servicePort.actualizarCategoria(
                                         id,
-                                        restMapper.toCategoria(request)
+                                        CategoriaResponseMapperManual.toModel(request)
                                 ).orElseThrow(() ->
                                         new RuntimeException("Categoría no encontrada"))
                         ),
