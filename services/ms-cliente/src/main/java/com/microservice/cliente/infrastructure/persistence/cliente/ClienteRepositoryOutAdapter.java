@@ -56,6 +56,13 @@ public class ClienteRepositoryOutAdapter implements IClienteRepositoryOutPort {
     }
 
     @Override
+    public Optional<Cliente> findByKeycloakId(String keycloakId) {
+        return clienteJpaRepository.findByKeycloakId(keycloakId)
+                .filter(c->!c.isDeleted())
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public PagedResult<Cliente> findAll(ClienteFiltro filtros, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ClienteEntity> pageResult = clienteJpaRepository.listarTodos(

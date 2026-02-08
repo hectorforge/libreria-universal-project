@@ -109,4 +109,20 @@ public class ClienteService implements IClienteServiceInPort {
             );
         }
     }
+
+    @Override
+    public OperationResult<Cliente> syncWithKeycloak(Cliente cliente) {
+        try {
+            return clienteRepository.findByKeycloakId(cliente.getKeycloakId())
+                    .map(OperationResult::success)
+                    .orElseGet(() -> {
+                        return create(cliente);
+                    });
+        } catch (Exception e) {
+            return OperationResult.failureSingle(
+                    ErrorCatalog.GENERIC_ERROR.getErrorCode(),
+                    "Error durante la sincronización de identidad: " + e.getMessage()
+            );
+        }
+    }
 }

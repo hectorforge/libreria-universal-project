@@ -14,3 +14,8 @@ spring:
       ddl-auto: update
     database: PostgreSQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8089/realms/keycloack-libreria

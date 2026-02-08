@@ -15,7 +15,7 @@ public class ClienteDomainDtoMapper {
     /**
      * Mapear de {@link ClienteRequest} a {@link Cliente}
      * @param request
-     * @return
+     * @return {@link Cliente}
      */
     public Cliente toDomain(ClienteRequest request) {
         if (request == null) return null;
