@@ -15,6 +15,7 @@ import com.microservice.cliente.infrastructure.rest.cliente.validators.CrearClie
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -27,8 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/v1/clientes")
+@RequestMapping("/api/clientes")
 @Tag(name = "Clientes", description = "API para la gestión de clientes. Permite crear, actualizar, consultar, eliminar y listar clientes con filtros y paginación.")
 @RequiredArgsConstructor
 public class ClienteRestController {
@@ -176,5 +178,11 @@ public class ClienteRestController {
         }
 
         return OperationResult.failureSingle(result.errorCode(), result.errorMessage());
+    }
+
+    @GetMapping("/dummy")
+    public String dummy(){
+        log.info("Paso por el dummy");
+        return "Soy un dummy";
     }
 }

@@ -32,6 +32,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.libreriauniversal</groupId>
 			<artifactId>common</artifactId>
 			<version>1.0.0</version>
