@@ -6,6 +6,7 @@ import com.microservice.inventario.application.ports.output.ProductoPersistenceP
 import com.microservice.inventario.domain.exception.ProductoNotFoundException;
 import com.microservice.inventario.domain.model.Categoria;
 import com.microservice.inventario.domain.model.Producto;
+import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoInventarioResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -91,6 +92,11 @@ public class ProductoService implements ProductoServicePort {
             throw new ProductoNotFoundException();
         }
         productoPersistencePort.deleteById(id);
+    }
+
+    @Override
+    public Optional<ProductoInventarioResponse> obtenerProductoInventarioPorId(UUID id) {
+        return productoPersistencePort.obtenerProductoInventarioPorId(id);
     }
 
 }

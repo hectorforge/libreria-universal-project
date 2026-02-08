@@ -12,7 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class InventarioResponse {
 
-    private UUID productoId;
-    private int stockActual;
-    private int stockMinimo;
+    private UUID idInventario;
+    private ProductoResponse producto;
+    private Integer stockActual;
+    private Integer stockMinimo;
 }

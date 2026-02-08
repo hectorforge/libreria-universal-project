@@ -1,6 +1,7 @@
 package com.microservice.inventario.application.ports.output;
 
 import com.microservice.inventario.domain.model.Producto;
+import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoInventarioResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,5 +18,8 @@ public interface ProductoPersistencePort {
     Producto save(Producto producto);
 
     void deleteById(UUID id);
+
+    Optional<ProductoInventarioResponse> obtenerProductoInventarioPorId(UUID id);
+
 
 }

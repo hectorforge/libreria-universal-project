@@ -18,16 +18,19 @@ public class ProductoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_producto")
     private UUID id;
 
     private String codigo;
     private String nombre;
     private String descripcion;
-    private BigDecimal precioActual;
+    private Double precioActual;
+
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "id_categoria", nullable = false)
     private CategoriaEntity categoria;
-    private Boolean estado;
+
+    private boolean estado;
     private String urlImagen;
     @Column(name = "fecha_creacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;

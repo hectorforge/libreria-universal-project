@@ -3,6 +3,7 @@ package com.microservice.inventario.infrastructure.adapters.output.persistence;
 import com.microservice.inventario.application.ports.output.CategoriaPersistencePort;
 import com.microservice.inventario.domain.model.Categoria;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.CategoriaPersistenceMapper;
+import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.CategoriaPersistenceMapperManual;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class CategoriaPersistenceAdapter implements CategoriaPersistencePort {
     @Override
     public Optional<Categoria> findById(UUID id) {
         return categoriaRepository.findById(id)
-                .map(mapper::toCategoria);
+                .map(CategoriaPersistenceMapperManual::ToModel);
     }
     @Override
     public List<Categoria> findAll() {
@@ -28,9 +29,9 @@ public class CategoriaPersistenceAdapter implements CategoriaPersistencePort {
     }
     @Override
     public Categoria save(Categoria categoria) {
-        return mapper.toCategoria(
+        return CategoriaPersistenceMapperManual.ToModel(
                 categoriaRepository.save(
-                        mapper.toCategoriaEntity(categoria)
+                        CategoriaPersistenceMapperManual.ToEntity(categoria)
                 )
         );
     }

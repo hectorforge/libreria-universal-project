@@ -5,10 +5,12 @@ import com.microservice.inventario.application.ports.output.InventarioPersistenc
 import com.microservice.inventario.domain.exception.InventarioNotFoundException;
 import com.microservice.inventario.domain.model.Inventario;
 import com.microservice.inventario.domain.model.Producto;
+import com.microservice.inventario.shared.response.TipoMovimiento;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,7 +26,7 @@ public class InventarioService implements InventarioServicePort {
 
 
         Inventario inventario = Inventario.builder()
-                .producto(
+                .productoId(
                         Producto.builder()
                                 .id(productoId)
                                 .build()
@@ -42,31 +44,15 @@ public class InventarioService implements InventarioServicePort {
      * manejo = false -> salida
      */
     @Override
-    public void manejoStock(UUID productoId, int cantidad, boolean manejo) {
-
-        Inventario inventario = persistencePort.findByProductoId(productoId)
-                .orElseThrow(InventarioNotFoundException::new);
-
-        //  VALIDACIÓN DE NEGOCIO (AQUÍ VA)
-        if (!manejo && inventario.getStockActual() < cantidad) {
-            throw new RuntimeException("Stock insuficiente para realizar la salida");
-        }
-
-        //  ACTUALIZACIÓN DE STOCK
-        if (manejo) {
-            inventario.setStockActual(inventario.getStockActual() + cantidad);
-        } else {
-            inventario.setStockActual(inventario.getStockActual() - cantidad);
-        }
-
-        persistencePort.save(inventario);
+    public void manejoStock(UUID productoId, int cantidad, TipoMovimiento tipo) {
+        persistencePort.manejoStock(productoId, cantidad, tipo);
     }
 
      //Consultar stock actual del producto
 
     @Override
     public int consultarStockProducto(UUID productoId) {
-        return persistencePort.findByProductoId(productoId)
+        return persistencePort.obtenerInventarioPorProductoId(productoId)
                 .map(Inventario::getStockActual)
                 .orElse(0);
     }
@@ -75,15 +61,14 @@ public class InventarioService implements InventarioServicePort {
 
     @Override
     public boolean validarDisponibilidadStock(UUID productoId, int cantidad) {
-        return persistencePort.findByProductoId(productoId)
+        return persistencePort.obtenerInventarioPorProductoId(productoId)
                 .map(inv -> inv.getStockActual() >= cantidad)
                 .orElse(false);
     }
 
     @Override
-    public Inventario obtenerInventarioPorProductoId(UUID productoId) {
-        return persistencePort.findByProductoId(productoId)
-                .orElseThrow(InventarioNotFoundException::new);
+    public Optional<Inventario> obtenerInventarioPorProductoId(UUID productoId) {
+        return persistencePort.obtenerInventarioPorProductoId(productoId);
     }
 
     @Override

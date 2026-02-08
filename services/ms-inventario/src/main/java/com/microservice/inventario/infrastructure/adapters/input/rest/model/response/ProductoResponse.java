@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ProductoResponse {
 
+    private UUID id;
     private String codigo;
     private String nombre;
     private String descripcion;

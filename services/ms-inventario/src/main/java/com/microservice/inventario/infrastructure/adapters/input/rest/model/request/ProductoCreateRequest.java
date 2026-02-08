@@ -29,7 +29,7 @@ public class ProductoCreateRequest {
     private double precioActual;
 
     @NotNull(message = "La categoría es obligatoria")
-    private Categoria categoria;// solo el ID de la categoría
+    private UUID categoria;
 
     private String urlImagen;
 }

@@ -15,8 +15,8 @@ public class Producto {
     private String codigo;
     private String nombre;
     private String descripcion;
-    private Categoria categoria;
     private double precioActual;
+    private Categoria categoria;
     private boolean estado;
     private String urlImagen;
 

@@ -8,6 +8,8 @@ spring:
     name: config-server
   cloud:
     config:
+
       server:
         native:
           search-locations: classpath:/configurations
+

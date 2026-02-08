@@ -14,7 +14,6 @@ import java.util.List;
 )
 public interface InventarioRestMapper {
 
-    @Mapping(source = "producto.id", target = "productoId")
     InventarioResponse toInventarioResponse(Inventario inventario);
 
     List<InventarioResponse> toInventarioResponseList(List<Inventario> inventarios);

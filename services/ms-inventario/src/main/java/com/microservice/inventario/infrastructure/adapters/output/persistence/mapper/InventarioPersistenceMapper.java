@@ -13,9 +13,8 @@ import java.util.UUID;
 @Mapper(componentModel = "spring")
 public interface InventarioPersistenceMapper {
 
-    @Mapping(source = "producto.id", target = "productoId")
+
     InventarioEntity toInventarioEntity(Inventario inventario);
-    @Mapping(source = "productoId", target = "producto", qualifiedByName = "mapProducto")
     Inventario toInventario(InventarioEntity entity);
 
     List<Inventario> toInventarioList(List<InventarioEntity> entityList);
