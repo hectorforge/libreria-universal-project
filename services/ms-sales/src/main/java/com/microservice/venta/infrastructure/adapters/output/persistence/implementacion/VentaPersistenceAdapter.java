@@ -2,13 +2,16 @@ package com.microservice.venta.infrastructure.adapters.output.persistence.implem
 
 import com.microservice.venta.application.ports.output.VentaPersistencePort;
 import com.microservice.venta.domain.exception.VentaNotException;
+import com.microservice.venta.domain.model.PagoModel;
 import com.microservice.venta.domain.model.VentaModel;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.DniResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaReactivoResponse;
 import com.microservice.venta.infrastructure.adapters.output.client.response.SunatClient;
 import com.microservice.venta.infrastructure.adapters.output.persistence.entity.VentaEntity;
+import com.microservice.venta.infrastructure.adapters.output.persistence.mapper.PagoPersistenceMapper;
 import com.microservice.venta.infrastructure.adapters.output.persistence.mapper.VentaPersistenceMapper;
+import com.microservice.venta.infrastructure.adapters.output.persistence.repository.PagoRepository;
 import com.microservice.venta.infrastructure.adapters.output.persistence.repository.VentaRepository;
 import com.microservice.venta.domain.enums.Estado;
 import lombok.AllArgsConstructor;
@@ -26,6 +29,7 @@ import java.util.UUID;
 public class VentaPersistenceAdapter implements VentaPersistencePort {
 
     private final VentaRepository repository;
+    private final PagoRepository pagoRepository;
     private final SunatClient sunatClient;
 
     @Override
@@ -64,9 +68,18 @@ public class VentaPersistenceAdapter implements VentaPersistencePort {
             });
         }
 
+        //Lógica para generar un pago asociado a la venta
+//        PagoModel nuevoPago = PagoModel.builder()
+//                .venta(ventaGuardada)
+//                .monto(ventaGuardada.getTotal())
+//                .metodoPago("EFECTIVO")
+//                .fechaPago(LocalDate.now())
+//                .activo(true)
+//                .estado("PAGADO")
+//                .build();
+//
+//        pagoRepository.save(PagoPersistenceMapper.toEntity(nuevoPago));
         repository.save(ventaNueva);
-
-        //Todo: Falta implementar la lógica para pago
 
         return VentaPersistenceMapper.toResponse(ventaNueva);
     }
