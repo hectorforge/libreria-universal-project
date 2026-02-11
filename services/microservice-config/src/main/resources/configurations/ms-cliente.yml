@@ -14,7 +14,6 @@ spring:
       ddl-auto: update
     database: PostgreSQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-<<<<<<< HEAD
 
   eureka:
     instance:
@@ -22,10 +21,8 @@ spring:
     client:
       service-url:
         defaultZone: http://localhost:8761/eureka
-=======
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8089/realms/keycloack-libreria
->>>>>>> feature/hectorforge
