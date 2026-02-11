@@ -1,5 +1,5 @@
 CREATE DATABASE clientedb;
 CREATE DATABASE inventariodb;
-CREATE DATABASE seguridaddb;
+CREATE DATABASE keycloackdb;
 CREATE DATABASE salesdb;
 CREATE DATABASE reportedb;

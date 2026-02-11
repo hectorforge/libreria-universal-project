@@ -9,6 +9,7 @@ spring:
     url: jdbc:postgresql://localhost:5434/salesdb
     username: admin
     password: admin123
+<<<<<<< HEAD
   jpa:
     hibernate:
       ddl-auto: update
@@ -25,3 +26,10 @@ spring:
 sunat:
   api:
     token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InBhYmxvY2ZyMjJAZ21haWwuY29tIn0.4uhdCdLKQSUTX0Q0IKrUvkALxNdskd6tdiz8V5HjZPc
+=======
+    jpa:
+      hibernate:
+        ddl-auto: update
+      database: PostgreSQL
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+>>>>>>> feature/hectorforge
