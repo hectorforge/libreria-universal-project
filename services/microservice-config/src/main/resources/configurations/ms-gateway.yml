@@ -1,9 +1,6 @@
-#eureka:
-#  client:
-#    register-with-eureka: false
-
 server:
   port: 8080
+
 
 spring:
   application:
@@ -39,8 +36,8 @@ spring:
           predicates:
             - Path=/api/venta/**
 
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.cloud.loadbalancer: DEBUG
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8089/realms/keycloack-libreria
