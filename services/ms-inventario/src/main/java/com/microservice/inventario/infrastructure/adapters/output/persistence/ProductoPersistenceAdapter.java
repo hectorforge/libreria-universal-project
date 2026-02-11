@@ -1,17 +1,10 @@
 package com.microservice.inventario.infrastructure.adapters.output.persistence;
 
-import com.microservice.inventario.application.ports.output.CategoriaPersistencePort;
 import com.microservice.inventario.application.ports.output.ProductoPersistencePort;
-import com.microservice.inventario.application.service.CategoriaService;
 import com.microservice.inventario.application.service.InventarioService;
-import com.microservice.inventario.domain.model.Categoria;
-import com.microservice.inventario.domain.model.Inventario;
 import com.microservice.inventario.domain.model.Producto;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.ProductoRestMapperManual;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoInventarioResponse;
-import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoResponse;
-import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.CategoriaPersistenceMapper;
-import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.ProductoPersistenceMapper;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.ProductoPersistenceMapperManual;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.InventarioRepository;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.ProductoRepository;
@@ -28,7 +21,6 @@ public class ProductoPersistenceAdapter implements ProductoPersistencePort { // 
 
     private final ProductoRepository repository;
     private final InventarioRepository inventarioRepository;
-    private final ProductoPersistenceMapper mapper;
     private final ProductoPersistenceMapperManual mapperManual;
     private final InventarioService inventarioService;
     private final ProductoRestMapperManual restMapperManual;
@@ -49,15 +41,16 @@ public class ProductoPersistenceAdapter implements ProductoPersistencePort { // 
 
     @Override
     public List<Producto> findByCategoriaId(UUID categoriaId) {
-        return mapper.toProductoList(
-                repository.findByCategoriaId(categoriaId)
-        );
+        return repository.findByCategoriaId(categoriaId)
+                .stream()
+                .map(ProductoPersistenceMapperManual::toModel)
+                .toList();
     }
 
     @Override
     public Producto save(Producto producto) {
-        return mapper.toProducto(
-                repository.save(mapper.toProductoEntity(producto)
+        return ProductoPersistenceMapperManual.toModel(
+                repository.save(ProductoPersistenceMapperManual.toEntity(producto)
                 )
         );
     }

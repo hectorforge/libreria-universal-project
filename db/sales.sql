@@ -49,3 +49,14 @@ INSERT INTO detalle_ventas (cantidad, precio_unitario, producto_id, subtotal, ve
 -- Venta 10
 (4, 200.00, 'aaaaaaaa-0000-0000-0000-00000000000d', 800.00, 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
 (2, 150.00, 'aaaaaaaa-0000-0000-0000-00000000000e', 300.00, 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
+
+-- Tabla: Pagos
+INSERT INTO pagos (pago_id, activo, estado, fecha_pago, metodo_pago, monto, venta_id) VALUES
+                                                                                          (1,  true,  'COMPLETADO', '2026-01-10', 'TARJETA', 450.00, '11111111-1111-1111-1111-111111111111'),
+                                                                                          (2,  true,  'COMPLETADO', '2026-01-12', 'EFECTIVO', 320.00, '22222222-2222-2222-2222-222222222222'),
+                                                                                          (3,  true,  'PENDIENTE',  '2026-01-15', 'TRANSFERENCIA', 600.00, '44444444-4444-4444-4444-444444444444'),
+                                                                                          (4,  true,  'COMPLETADO', '2026-01-18', 'TARJETA', 280.00, '55555555-5555-5555-5555-555555555555'),
+                                                                                          (5,  true,  'COMPLETADO', '2026-01-20', 'TRANSFERENCIA', 900.00, '66666666-6666-6666-6666-666666666666'),
+                                                                                          (6,  true,  'COMPLETADO', '2026-01-22', 'TARJETA', 750.00, '88888888-8888-8888-8888-888888888888'),
+                                                                                          (7,  true,  'PENDIENTE',  '2026-01-25', 'EFECTIVO', 500.00, '99999999-9999-9999-9999-999999999999'),
+                                                                                          (8,  true,  'COMPLETADO', '2026-01-28', 'TRANSFERENCIA', 1100.00, 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');

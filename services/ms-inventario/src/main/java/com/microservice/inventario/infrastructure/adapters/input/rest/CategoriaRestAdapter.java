@@ -2,26 +2,24 @@ package com.microservice.inventario.infrastructure.adapters.input.rest;
 
 import com.microservice.inventario.application.ports.input.CategoriaServicePort;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.CategoriaResponseMapperManual;
-import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.CategoriaRestMapper;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.CategoriaCreateRequest;
-import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.CategoriaResponse;
 import com.microservice.inventario.shared.response.OperationResult;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/categoria")
+@RequestMapping("/api/categoria")
+@Tag(name = "Categoria", description = "API para la gestión de categorías. Permite crear, actualizar, consultar, eliminar y listar categorías.")
 public class CategoriaRestAdapter {
 
     private final CategoriaServicePort servicePort;
-    private final CategoriaRestMapper restMapper;
 
     @GetMapping("/v1/listar")
     public ResponseEntity<?> findAll() {

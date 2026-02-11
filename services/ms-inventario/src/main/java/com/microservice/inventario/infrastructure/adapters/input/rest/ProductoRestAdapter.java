@@ -3,13 +3,13 @@ package com.microservice.inventario.infrastructure.adapters.input.rest;
 import com.microservice.inventario.application.ports.input.InventarioServicePort;
 import com.microservice.inventario.application.ports.input.ProductoServicePort;
 import com.microservice.inventario.domain.model.Producto;
-import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.ProductoRestMapper;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.ProductoRestMapperManual;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.ProductoCreateRequest;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoInventarioResponse;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoResponse;
 import com.microservice.inventario.shared.response.OperationResult;
 import com.microservice.inventario.shared.response.pagination.PaginaResult;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,12 +21,12 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("productos")
+@RequestMapping("/api/productos")
+@Tag(name = "Producto", description = "API para la gestión de productos. Permite crear, actualizar, consultar, eliminar y listar productos, así como obtener detalles de inventario.")
 public class ProductoRestAdapter {
 
     private final ProductoServicePort servicePort;
     private final InventarioServicePort inventarioService;
-    private final ProductoRestMapper restMapper;
     private final ProductoRestMapperManual restMapperManual;
 
     // ================= LISTAR TODOS =================
@@ -58,37 +58,37 @@ public class ProductoRestAdapter {
 
     ///PAGINACION
 
-    @GetMapping("/v1/listar-paginado")
-    public ResponseEntity<OperationResult<PaginaResult<ProductoResponse>>> listarProductosPaginados(
-            @RequestParam(defaultValue = "0") int pagina,
-            @RequestParam(defaultValue = "10") int tamanio,
-            @RequestParam(defaultValue = "id") String ordenarPor,
-            @RequestParam(defaultValue = "asc") String direccion
-    ) {
-        // Obtener lista completa de productos
-        List<Producto> productos = servicePort.listarProductos();
-
-        // Ordenar y paginar (simple ejemplo)
-        List<Producto> productosPaginados = productos.stream()
-                .skip((long) pagina * tamanio)
-                .limit(tamanio)
-                .toList();
-
-        PaginaResult<ProductoResponse> paginaResult = PaginaResult.of(
-                restMapper.toProductoResponseList(productosPaginados),
-                pagina,
-                tamanio,
-                productos.size()
-        );
-
-        return ResponseEntity.ok(
-                OperationResult.successPagination(
-                        paginaResult,
-                        "Lista de productos paginados",
-                        200
-                )
-        );
-    }
+//    @GetMapping("/v1/listar-paginado")
+//    public ResponseEntity<OperationResult<PaginaResult<ProductoResponse>>> listarProductosPaginados(
+//            @RequestParam(defaultValue = "0") int pagina,
+//            @RequestParam(defaultValue = "10") int tamanio,
+//            @RequestParam(defaultValue = "id") String ordenarPor,
+//            @RequestParam(defaultValue = "asc") String direccion
+//    ) {
+//        // Obtener lista completa de productos
+//        List<Producto> productos = servicePort.listarProductos();
+//
+//        // Ordenar y paginar (simple ejemplo)
+//        List<Producto> productosPaginados = productos.stream()
+//                .skip((long) pagina * tamanio)
+//                .limit(tamanio)
+//                .toList();
+//
+//        PaginaResult<ProductoResponse> paginaResult = PaginaResult.of(
+//                restMapper.toProductoResponseList(productosPaginados),
+//                pagina,
+//                tamanio,
+//                productos.size()
+//        );
+//
+//        return ResponseEntity.ok(
+//                OperationResult.successPagination(
+//                        paginaResult,
+//                        "Lista de productos paginados",
+//                        200
+//                )
+//        );
+//    }
 
     // ================= REGISTRAR =================
     @PostMapping("/v1/registrar")
@@ -100,12 +100,12 @@ public class ProductoRestAdapter {
             );
         }
 
-        Producto producto = restMapper.toProducto(request);
+        Producto producto = ProductoRestMapperManual.toModel(request);
         Producto productoGuardado = servicePort.registrarProducto(producto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 OperationResult.isSuccess(
-                        restMapper.toProductoResponse(productoGuardado),
+                        ProductoRestMapperManual.toResponse(productoGuardado),
                         "Producto creado exitosamente",
                         201
                 )
@@ -117,9 +117,9 @@ public class ProductoRestAdapter {
             @PathVariable UUID id,
             @Valid @RequestBody ProductoCreateRequest request
     ) {
-        Producto producto = restMapper.toProducto(request);
+        Producto producto = ProductoRestMapperManual.toModel(request);
 
-        return restMapper.toProductoResponse(
+        return ProductoRestMapperManual.toResponse(
                 servicePort.actualizarProducto(id, producto)
                         .orElseThrow(() ->
                                 new RuntimeException("Producto no encontrado"))
@@ -131,7 +131,7 @@ public class ProductoRestAdapter {
             @PathVariable UUID id,
             @RequestParam double nuevoPrecio
     ) {
-        return restMapper.toProductoResponse(
+        return ProductoRestMapperManual.toResponse(
                 servicePort.cambiarPrecio(id, nuevoPrecio)
         );
     }
@@ -145,9 +145,10 @@ public class ProductoRestAdapter {
     public List<ProductoResponse> listarPorCategoria(
             @PathVariable UUID categoriaId
     ) {
-        return restMapper.toProductoResponseList(
-                servicePort.listarProductosPorCategoria(categoriaId)
-        );
+        return servicePort.listarProductosPorCategoria(categoriaId)
+                .stream()
+                .map(ProductoRestMapperManual::toResponse)
+                .toList();
     }
     // ================= ELIMINAR =================
     @DeleteMapping("/v1/eliminar/{id}")

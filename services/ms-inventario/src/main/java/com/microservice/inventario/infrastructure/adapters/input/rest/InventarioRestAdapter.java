@@ -1,13 +1,11 @@
 package com.microservice.inventario.infrastructure.adapters.input.rest;
 
 import com.microservice.inventario.application.ports.input.InventarioServicePort;
-import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.InventarioRestMapper;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.InventarioRestMapperManual;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.InventarioCreateRequest;
-import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.InventarioResponse;
-import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoResponse;
 import com.microservice.inventario.shared.response.OperationResult;
 import com.microservice.inventario.shared.response.TipoMovimiento;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,11 +16,11 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/inventario")
+@RequestMapping("/api/inventario")
+@Tag(name = "Inventario", description = "API para la gestión de inventario. Permite registrar stock inicial, manejar stock (entrada/salida), consultar stock actual y validar disponibilidad.")
 public class InventarioRestAdapter {
 
     private final InventarioServicePort servicePort;
-    private final InventarioRestMapper restMapper;
     private final InventarioRestMapperManual restMapperManual;
 
     // Consultar stock actual
