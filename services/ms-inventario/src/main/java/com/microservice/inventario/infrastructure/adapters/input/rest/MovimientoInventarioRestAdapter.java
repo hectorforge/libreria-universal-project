@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/movimientos")
+@RequestMapping("/api/movimientos")
 public class MovimientoInventarioRestAdapter {
 
     private final MovimientoServicePort servicePort;

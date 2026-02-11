@@ -1,6 +1,9 @@
+#eureka:
+#  client:
+#    register-with-eureka: false
+
 server:
   port: 8080
-
 
 spring:
   application:
@@ -31,13 +34,13 @@ spring:
           uri: http://localhost:8086
           predicates:
             - Path=/api/seguridad/**
-        - id: ventas
+        - id: sales
           uri: http://localhost:8087
           predicates:
             - Path=/api/venta/**
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8089/realms/keycloack-libreria
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG
+

@@ -2,7 +2,6 @@ package com.microservice.inventario.infrastructure.adapters.output.persistence;
 
 import com.microservice.inventario.application.ports.output.CategoriaPersistencePort;
 import com.microservice.inventario.domain.model.Categoria;
-import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.CategoriaPersistenceMapper;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.CategoriaPersistenceMapperManual;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CategoriaPersistenceAdapter implements CategoriaPersistencePort {
     private final CategoriaRepository categoriaRepository;
-    private final CategoriaPersistenceMapper mapper;
 
     @Override
     public Optional<Categoria> findById(UUID id) {
@@ -25,7 +23,10 @@ public class CategoriaPersistenceAdapter implements CategoriaPersistencePort {
     }
     @Override
     public List<Categoria> findAll() {
-        return mapper.toCategoriaList(categoriaRepository.findAll());
+        return categoriaRepository.findAll()
+                .stream()
+                .map(CategoriaPersistenceMapperManual::ToModel)
+                .toList();
     }
     @Override
     public Categoria save(Categoria categoria) {

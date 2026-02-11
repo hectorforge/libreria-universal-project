@@ -9,6 +9,7 @@ import com.microservice.venta.infrastructure.adapters.output.persistence.impleme
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -56,6 +57,7 @@ public class VentaRestController {
             summary = "Obtener una venta",
             description = "Obtiene los detalles de una venta específica utilizando su ID. Devuelve la venta si existe o un error indicando que no se encontró.")
     @GetMapping("/v1/obtener/{id}")
+    //@ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> obtenerVentaPorId(@PathVariable UUID id) {
         return service.obtenerVentaPorId(id)
                 .map(ventaModel -> ResponseEntity.ok(
