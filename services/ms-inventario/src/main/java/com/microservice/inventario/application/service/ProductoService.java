@@ -99,4 +99,9 @@ public class ProductoService implements ProductoServicePort {
         return productoPersistencePort.obtenerProductoInventarioPorId(id);
     }
 
+    @Override
+    public List<Producto> registrarVariosProductos(List<Producto> productos) {
+        return productoPersistencePort.registrarVariosProductos(productos);
+    }
+
 }

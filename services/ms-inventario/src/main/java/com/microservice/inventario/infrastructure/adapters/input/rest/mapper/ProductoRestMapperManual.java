@@ -8,6 +8,8 @@ import com.microservice.inventario.infrastructure.adapters.input.rest.model.resp
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ProductoRestMapperManual {
@@ -44,6 +46,18 @@ public class ProductoRestMapperManual {
                     .urlImagen(request.getUrlImagen())
                     .build();
 
+        }
+
+        public static List<Producto> toModelList(List<ProductoCreateRequest> request) {
+            return request.stream()
+                    .map(ProductoRestMapperManual::toModel)
+                    .toList();
+        }
+
+        public static List<ProductoResponse> toResponseList(List<Producto> productos) {
+            return productos.stream()
+                    .map(ProductoRestMapperManual::toResponse)
+                    .toList();
         }
 
 }
