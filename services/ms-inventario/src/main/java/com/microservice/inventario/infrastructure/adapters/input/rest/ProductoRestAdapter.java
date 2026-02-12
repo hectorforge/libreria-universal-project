@@ -111,6 +111,23 @@ public class ProductoRestAdapter {
                 )
         );
     }
+
+    @PostMapping("/v1/registrar-varios")
+    public ResponseEntity<?> registrarProductos(@Valid @RequestBody List<ProductoCreateRequest> request) {
+
+
+        List<Producto> productos = ProductoRestMapperManual.toModelList(request);
+        List<Producto> productosGuardado = servicePort.registrarVariosProductos(productos);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                OperationResult.isSuccess(
+                        ProductoRestMapperManual.toResponseList(productosGuardado),
+                        "Productos creados exitosamente",
+                        201
+                )
+        );
+    }
+
     // ================= ACTUALIZAR =================
     @PutMapping("/v1/api/{id}")
     public ProductoResponse actualizarProducto(

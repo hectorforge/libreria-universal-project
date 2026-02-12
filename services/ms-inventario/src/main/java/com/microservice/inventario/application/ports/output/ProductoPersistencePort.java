@@ -21,5 +21,7 @@ public interface ProductoPersistencePort {
 
     Optional<ProductoInventarioResponse> obtenerProductoInventarioPorId(UUID id);
 
+    List<Producto> registrarVariosProductos(List<Producto> productos);
+
 
 }
