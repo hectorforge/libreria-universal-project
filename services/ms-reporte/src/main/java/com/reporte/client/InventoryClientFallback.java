@@ -10,12 +10,26 @@ import java.time.LocalDate;
 public class InventoryClientFallback implements InventoryClient {
     @Override
     public OperationResult<ProductDto> getProductById(String id) {
-        // Simulamos resolver nombres según el ID
-        String name = "Producto Genérico";
+        String name = "Producto Desconocido";
         String category = "General";
 
-        if (id.contains("0001")) { name = "Cuaderno Universitario"; category = "Útiles"; }
-        if (id.contains("0002")) { name = "Paquete de Libros Académicos"; category = "Libros"; }
+        // ASIGNAMOS CATEGORÍAS ÚNICAS PARA EVITAR EL ERROR DEL GRÁFICO
+        if (id.endsWith("1")) {
+            name = "Cuaderno Universitario";
+            category = "Papelería"; // Antes era Útiles
+        }
+        else if (id.endsWith("2")) {
+            name = "Paquete Libros Académicos";
+            category = "Libros";
+        }
+        else if (id.endsWith("3")) {
+            name = "Pluma Azul";
+            category = "Escritura"; // Antes era Útiles (Esto arregla el duplicado)
+        }
+        else if (id.endsWith("4")) {
+            name = "Mochila Escolar";
+            category = "Accesorios";
+        }
 
         ProductDto product = ProductDto.builder()
                 .id(id)

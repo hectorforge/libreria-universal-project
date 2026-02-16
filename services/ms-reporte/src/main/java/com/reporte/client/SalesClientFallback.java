@@ -18,47 +18,48 @@ public class SalesClientFallback implements SalesClient {
 
     @Override
     public OperationResult<List<SaleTransactionDto>> getSalesByDay(String date) {
-        // Mock data para el reporte diario (Tabla detallada del PDF)
-        List<SaleTransactionDto> list = new ArrayList<>();
-        list.add(createSale("01/01/2026", new BigDecimal("10800.00")));
-        list.add(createSale("01/01/2026", new BigDecimal("10200.00")));
-
-        return new OperationResult<>(true, list, "Mock Data", null, null, 200, LocalDate.now());
+        return new OperationResult<>(true, new ArrayList<>(), "Mock", null, null, 200, LocalDate.now());
     }
 
     @Override
     public OperationResult<List<DailySummaryDto>> getSalesSummary(String startDate, String endDate) {
-        // Mock data para el Gráfico de Barras (Financial Report)
+        // DATOS PARA EL GRÁFICO DE BARRAS (6 Meses)
         List<DailySummaryDto> summary = Arrays.asList(
-                new DailySummaryDto(LocalDate.parse("2025-08-01"), new BigDecimal("300.00"), 5),
-                new DailySummaryDto(LocalDate.parse("2025-09-01"), new BigDecimal("438.00"), 8),
-                new DailySummaryDto(LocalDate.parse("2025-10-01"), new BigDecimal("657.00"), 12),
-                new DailySummaryDto(LocalDate.parse("2025-11-01"), new BigDecimal("850.00"), 15),
-                new DailySummaryDto(LocalDate.parse("2025-12-01"), new BigDecimal("1000.00"), 20),
-                new DailySummaryDto(LocalDate.parse("2026-01-01"), new BigDecimal("1205.00"), 25)
+                new DailySummaryDto(LocalDate.of(2025, 8, 1), new BigDecimal("10300.00"), 50),
+                new DailySummaryDto(LocalDate.of(2025, 9, 1), new BigDecimal("12438.00"), 65),
+                new DailySummaryDto(LocalDate.of(2025, 10, 1), new BigDecimal("14657.00"), 70),
+                new DailySummaryDto(LocalDate.of(2025, 11, 1), new BigDecimal("18850.00"), 85),
+                new DailySummaryDto(LocalDate.of(2025, 12, 1), new BigDecimal("22000.00"), 100),
+                new DailySummaryDto(LocalDate.of(2026, 1, 1), new BigDecimal("15400.00"), 60) // Mes actual
         );
         return new OperationResult<>(true, summary, "Mock Data", null, null, 200, LocalDate.now());
     }
 
     @Override
     public OperationResult<List<SaleDetailDto>> getSalesDetails(String startDate, String endDate) {
-        // Mock data para Top Sellers (Simulamos ventas masivas de cuadernos y libros)
-        // Retornamos IDs que luego InventoryClient resolverá como "Cuaderno"
+        // DATOS PARA TOP SELLERS Y PIE CHART
         List<SaleDetailDto> details = new ArrayList<>();
-        // Producto 1: Cuaderno (5000 unidades) -> ID "prod-1"
-        details.add(new SaleDetailDto(UUID.fromString("00000000-0000-0000-0000-000000000001"), 5000, new BigDecimal("5.00"), new BigDecimal("25000")));
-        // Producto 2: Libros (S/. 120,000) -> ID "prod-2"
-        details.add(new SaleDetailDto(UUID.fromString("00000000-0000-0000-0000-000000000002"), 100, new BigDecimal("1200.00"), new BigDecimal("120000")));
+
+        // 1. Cuadernos (Categoría Útiles) - Varios registros para sumar volumen
+        details.add(createDetail("prod-1", 2000, "5.00")); // 10,000
+        details.add(createDetail("prod-1", 3000, "5.00")); // 15,000
+
+        // 2. Libros (Categoría Libros) - Precio alto, menos unidades
+        details.add(createDetail("prod-2", 50, "1200.00")); // 60,000
+        details.add(createDetail("prod-2", 50, "1200.00")); // 60,000
+
+        // 3. Lapiceros (Categoría Útiles)
+        details.add(createDetail("prod-3", 4200, "1.50")); // 6,300
+
+        // 4. Mochilas (Categoría Otros)
+        details.add(createDetail("prod-4", 150, "80.00")); // 12,000
 
         return new OperationResult<>(true, details, "Mock Data", null, null, 200, LocalDate.now());
     }
 
-    // Helper
-    private SaleTransactionDto createSale(String dateStr, BigDecimal total) {
-        return SaleTransactionDto.builder()
-                .date(LocalDate.now()) // Simplificado para el ejemplo
-                .totalAmount(total)
-                .status("CONFIRMED")
-                .build();
+    private SaleDetailDto createDetail(String id, int qty, String price) {
+        BigDecimal p = new BigDecimal(price);
+        return new SaleDetailDto(UUID.fromString("00000000-0000-0000-0000-00000000000" + id.split("-")[1]),
+                qty, p, p.multiply(new BigDecimal(qty)));
     }
 }

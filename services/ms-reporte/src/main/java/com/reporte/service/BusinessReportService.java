@@ -129,10 +129,13 @@ public class BusinessReportService {
 
     // 3. Lógica para Clientes VIP
     public List<VipClientItem> getVipClients(String startDate, String endDate) {
-        // Mock rápido de IDs (simulando respuesta de ventas)
+        // Mock de 5 Clientes para probar el medallero (Oro, Plata, Bronce y Resto)
         Map<String, BigDecimal> topClientsMock = new LinkedHashMap<>();
-        topClientsMock.put("330e8400-e29b-41d4-a716-446655440111", new BigDecimal("15400.00"));
-        topClientsMock.put("330e8400-e29b-41d4-a716-446655440222", new BigDecimal("12850.50"));
+        topClientsMock.put("330e8400-e29b-41d4-a716-446655440111", new BigDecimal("15400.00")); // 1. Lider (Oro)
+        topClientsMock.put("330e8400-e29b-41d4-a716-446655440222", new BigDecimal("12850.50")); // 2. Globales (Plata)
+        topClientsMock.put("330e8400-e29b-41d4-a716-446655440333", new BigDecimal("10500.75")); // 3. Andes (Bronce)
+        topClientsMock.put("330e8400-e29b-41d4-a716-446655440444", new BigDecimal("9200.00"));  // 4. Ferretería (Sin color)
+        topClientsMock.put("330e8400-e29b-41d4-a716-446655440555", new BigDecimal("8100.00"));  // 5. Importadora (Sin color)
 
         List<VipClientItem> vipList = new ArrayList<>();
 
@@ -151,7 +154,7 @@ public class BusinessReportService {
                     item.setPhone(clientResult.getData().getPhone());
                 }
             } catch (Exception e) {
-                // Si falla, usar Mock de Cliente (AQUÍ ESTABA EL ERROR ANTES)
+                // Si falla, usar Mock de Cliente
                 ClientDto mockClient = clientFallback.getClientById(clientId).getData();
                 item.setClientName(mockClient.getBusinessName());
                 item.setEmail(mockClient.getEmail());
