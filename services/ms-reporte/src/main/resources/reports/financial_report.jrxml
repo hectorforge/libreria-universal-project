@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="financial_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <parameter name="reportTitle" class="java.lang.String"/>
+    <parameter name="dateRange" class="java.lang.String"/>
+    <field name="dateLabel" class="java.lang.String"/>
+    <field name="income" class="java.math.BigDecimal"/>
+    <field name="tax" class="java.math.BigDecimal"/>
+    <field name="net" class="java.math.BigDecimal"/>
+    <title>
+        <band height="80">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="30" forecolor="#00529B"/>
+                <textElement textAlignment="Center">
+                    <font size="22" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="30" width="555" height="20" forecolor="#666666"/>
+                <textElement textAlignment="Center">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{dateRange}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="200">
+            <barChart>
+                <chart evaluationTime="Report">
+                    <reportElement x="0" y="0" width="555" height="190"/>
+                    <chartTitle position="Top"/>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <categoryDataset>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Ingresos Mensuales"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{dateLabel}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{income}]]></valueExpression>
+                    </categorySeries>
+                </categoryDataset>
+                <barPlot>
+                    <plot/>
+                    <itemLabel/>
+                    <categoryAxisFormat>
+                        <axisFormat/>
+                    </categoryAxisFormat>
+                    <valueAxisFormat>
+                        <axisFormat/>
+                    </valueAxisFormat>
+                </barPlot>
+            </barChart>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="30">
+            <staticText><reportElement mode="Opaque" backcolor="#00529B" forecolor="#FFFFFF" x="0" y="0" width="138" height="30"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Fecha]]></text></staticText>
+            <staticText><reportElement mode="Opaque" backcolor="#00529B" forecolor="#FFFFFF" x="138" y="0" width="138" height="30"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Venta Bruta]]></text></staticText>
+            <staticText><reportElement mode="Opaque" backcolor="#00529B" forecolor="#FFFFFF" x="276" y="0" width="138" height="30"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[IGV]]></text></staticText>
+            <staticText><reportElement mode="Opaque" backcolor="#00529B" forecolor="#FFFFFF" x="414" y="0" width="141" height="30"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Venta Neta]]></text></staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="25">
+            <textField><reportElement x="0" y="0" width="138" height="25"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{dateLabel}]]></textFieldExpression></textField>
+            <textField><reportElement x="138" y="0" width="138" height="25"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA["S/. " + $F{income}]]></textFieldExpression></textField>
+            <textField><reportElement x="276" y="0" width="138" height="25"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA["S/. " + $F{tax}]]></textFieldExpression></textField>
+            <textField><reportElement x="414" y="0" width="141" height="25"/><textElement textAlignment="Center" verticalAlignment="Middle"/><textFieldExpression><![CDATA["S/. " + $F{net}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+</jasperReport>
