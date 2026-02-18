@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vip_clients" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <parameter name="reportTitle" class="java.lang.String"/>
+    <field name="clientName" class="java.lang.String"/>
+    <field name="email" class="java.lang.String"/>
+    <field name="phone" class="java.lang.String"/>
+    <field name="totalPurchased" class="java.math.BigDecimal"/>
+    <title>
+        <band height="60">
+            <textField>
+                <reportElement x="0" y="10" width="555" height="30" forecolor="#00529B"/>
+                <textElement textAlignment="Center"><font size="20" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30">
+            <staticText><reportElement mode="Opaque" backcolor="#DDDDDD" x="0" y="0" width="40" height="30"/><textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[#]]></text></staticText>
+            <staticText><reportElement mode="Opaque" backcolor="#DDDDDD" x="40" y="0" width="180" height="30"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[ Cliente]]></text></staticText>
+            <staticText><reportElement mode="Opaque" backcolor="#DDDDDD" x="220" y="0" width="150" height="30"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Email]]></text></staticText>
+            <staticText><reportElement mode="Opaque" backcolor="#DDDDDD" x="370" y="0" width="100" height="30"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Teléfono]]></text></staticText>
+            <staticText><reportElement mode="Opaque" backcolor="#DDDDDD" x="470" y="0" width="85" height="30"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement><text><![CDATA[Total (LTV) ]]></text></staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="30">
+            <textField>
+                <reportElement mode="Opaque" x="0" y="0" width="40" height="30"
+                               backcolor="#FFD700" isRemoveLineWhenBlank="false">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="0" y="0" width="40" height="30"
+                               backcolor="#C0C0C0" isRemoveLineWhenBlank="false">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT} == 2]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement mode="Opaque" x="0" y="0" width="40" height="30"
+                               backcolor="#CD7F32" isRemoveLineWhenBlank="false">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT} == 3]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="40" height="30">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT} > 3]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+
+            <textField><reportElement x="40" y="0" width="180" height="30"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[" " + $F{clientName}]]></textFieldExpression></textField>
+            <textField><reportElement x="220" y="0" width="150" height="30"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{email}]]></textFieldExpression></textField>
+            <textField><reportElement x="370" y="0" width="100" height="30"/><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression></textField>
+            <textField><reportElement x="470" y="0" width="85" height="30"/><textElement textAlignment="Right" verticalAlignment="Middle"/><textFieldExpression><![CDATA["S/. " + $F{totalPurchased}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+</jasperReport>
