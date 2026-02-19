@@ -9,7 +9,14 @@ import com.microservice.inventario.infrastructure.adapters.output.persistence.en
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.ProductoPersistenceMapperManual;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.InventarioRepository;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.ProductoRepository;
+import com.microservice.inventario.shared.response.OperationResult;
+import com.microservice.inventario.shared.response.pagination.PaginaResult;
+import com.microservice.inventario.shared.response.pagination.PaginacionRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -81,5 +88,37 @@ public class ProductoPersistenceAdapter implements ProductoPersistencePort { // 
                 .toList();
     }
 
+    //paginacion
 
+    @Override
+    public OperationResult<PaginaResult<Producto>> listarPaginado(PaginacionRequest request) {
+
+        Sort sort = request.isAscendente()
+                ? Sort.by(request.getOrdenarPor()).ascending()
+                : Sort.by(request.getOrdenarPor()).descending();
+
+        Pageable pageable = PageRequest.of(
+                request.getPagina(),
+                request.getTamanio(),
+                sort
+        );
+
+        Page<ProductoEntity> page = repository.findAll(pageable);
+
+        PaginaResult<Producto> pagina = PaginaResult.of(
+                page.getContent()
+                        .stream()
+                        .map(ProductoPersistenceMapperManual::toModel)
+                        .toList(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements()
+        );
+
+        return OperationResult.successPagination(
+                pagina,
+                "Productos paginados correctamente",
+                200
+        );
+    }
 }

@@ -12,10 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/categoria")
+@RequestMapping("/api/categorias")
 @Tag(name = "Categoria", description = "API para la gestión de categorías. Permite crear, actualizar, consultar, eliminar y listar categorías.")
 public class CategoriaRestAdapter {
 

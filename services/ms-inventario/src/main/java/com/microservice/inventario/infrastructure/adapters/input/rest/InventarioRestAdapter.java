@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/inventario")
+@RequestMapping("/api/inventarios")
 @Tag(name = "Inventario", description = "API para la gestión de inventario. Permite registrar stock inicial, manejar stock (entrada/salida), consultar stock actual y validar disponibilidad.")
 public class InventarioRestAdapter {
 

@@ -7,6 +7,9 @@ import com.microservice.inventario.domain.exception.ProductoNotFoundException;
 import com.microservice.inventario.domain.model.Categoria;
 import com.microservice.inventario.domain.model.Producto;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoInventarioResponse;
+import com.microservice.inventario.shared.response.OperationResult;
+import com.microservice.inventario.shared.response.pagination.PaginaResult;
+import com.microservice.inventario.shared.response.pagination.PaginacionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -102,6 +105,11 @@ public class ProductoService implements ProductoServicePort {
     @Override
     public List<Producto> registrarVariosProductos(List<Producto> productos) {
         return productoPersistencePort.registrarVariosProductos(productos);
+    }
+
+    @Override
+    public OperationResult<PaginaResult<Producto>> listarPaginado(PaginacionRequest request) {
+        return productoPersistencePort.listarPaginado(request);
     }
 
 }
