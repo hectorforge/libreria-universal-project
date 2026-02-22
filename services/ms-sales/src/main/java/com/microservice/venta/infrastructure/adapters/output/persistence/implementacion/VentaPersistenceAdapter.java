@@ -8,12 +8,16 @@ import com.microservice.venta.infrastructure.adapters.input.rest.model.response.
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaReactivoResponse;
 import com.microservice.venta.infrastructure.adapters.output.client.response.SunatClient;
+import com.microservice.venta.infrastructure.adapters.output.persistence.entity.FacturacionEntity;
+import com.microservice.venta.infrastructure.adapters.output.persistence.entity.PagoEntity;
 import com.microservice.venta.infrastructure.adapters.output.persistence.entity.VentaEntity;
 import com.microservice.venta.infrastructure.adapters.output.persistence.mapper.PagoPersistenceMapper;
 import com.microservice.venta.infrastructure.adapters.output.persistence.mapper.VentaPersistenceMapper;
+import com.microservice.venta.infrastructure.adapters.output.persistence.repository.FacturacionRepository;
 import com.microservice.venta.infrastructure.adapters.output.persistence.repository.PagoRepository;
 import com.microservice.venta.infrastructure.adapters.output.persistence.repository.VentaRepository;
 import com.microservice.venta.domain.enums.Estado;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -30,6 +34,7 @@ public class VentaPersistenceAdapter implements VentaPersistencePort {
 
     private final VentaRepository repository;
     private final PagoRepository pagoRepository;
+    private final FacturacionRepository facturacionRepository;
     private final SunatClient sunatClient;
 
     @Override
@@ -47,9 +52,11 @@ public class VentaPersistenceAdapter implements VentaPersistencePort {
     }
 
     @Override
+    @Transactional
     public VentaModel guardarVenta(VentaModel ventaModel) {
 
         VentaEntity ventaNueva = VentaPersistenceMapper.toEntity(ventaModel);
+
         String codigo = generarCodigoVenta();
         Double totalVenta = calcularTotalVenta(ventaNueva);
         LocalDate fechaActual = LocalDate.now();
@@ -68,23 +75,26 @@ public class VentaPersistenceAdapter implements VentaPersistencePort {
             });
         }
 
-        //Lógica para generar un pago asociado a la venta
-//        PagoModel nuevoPago = PagoModel.builder()
-//                .venta(ventaGuardada)
-//                .monto(ventaGuardada.getTotal())
-//                .metodoPago("EFECTIVO")
-//                .fechaPago(LocalDate.now())
-//                .activo(true)
-//                .estado("PAGADO")
-//                .build();
-//
-//        pagoRepository.save(PagoPersistenceMapper.toEntity(nuevoPago));
-        repository.save(ventaNueva);
+        VentaEntity ventaGuardada = repository.save(ventaNueva);
 
-        return VentaPersistenceMapper.toResponse(ventaNueva);
+        // Crear pago directamente con la entidad persistida
+        PagoEntity nuevoPago = PagoEntity.builder()
+                .venta(ventaGuardada)
+                .monto(ventaGuardada.getTotal())
+                .metodoPago("EFECTIVO")
+                .fechaPago(LocalDate.now())
+                .activo(true)
+                .estado("PAGADO")
+                .build();
+
+        pagoRepository.save(nuevoPago);
+
+        return VentaPersistenceMapper.toResponse(ventaGuardada);
     }
 
+
     @Override
+    @Transactional
     public VentaModel actualizarVenta(UUID id, VentaModel ventaModel) {
 
         VentaEntity venta = repository.findById(id)
@@ -102,8 +112,8 @@ public class VentaPersistenceAdapter implements VentaPersistencePort {
         );
     }
 
-
     @Override
+    @Transactional
     public void cancelarVenta(UUID id) {
 
         VentaEntity venta = repository.findById(id).orElseThrow(
@@ -111,6 +121,20 @@ public class VentaPersistenceAdapter implements VentaPersistencePort {
 
         venta.setActivo(false);
         venta.setEstado(Estado.CANCELADO);
+
+        //Eliminar el pago asociado a la venta cancelada
+        PagoEntity pago = pagoRepository.obtenerPagoPorIdVenta(venta.getId())
+                .orElseThrow(() -> new VentaNotException("Pago no encontrado para la venta con ID: " + id));
+
+        pagoRepository.deleteById(pago.getId());
+
+        // Anular la factura asociada a la venta cancelada
+        FacturacionEntity factura = facturacionRepository.obtenerFacturaPorIdVenta(venta.getId())
+                .orElseThrow(() -> new VentaNotException("Factura no encontrada para la venta con ID: " + id));
+
+        factura.setActivo(false);
+        factura.setEstado("ANULADA");
+        facturacionRepository.save(factura);
 
         repository.save(venta);
     }

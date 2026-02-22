@@ -5,6 +5,7 @@ import com.microservice.inventario.application.service.InventarioService;
 import com.microservice.inventario.domain.model.Producto;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.ProductoRestMapperManual;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoInventarioResponse;
+import com.microservice.inventario.infrastructure.adapters.output.persistence.entity.ProductoEntity;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.ProductoPersistenceMapperManual;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.InventarioRepository;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.repository.ProductoRepository;
@@ -63,5 +64,22 @@ public class ProductoPersistenceAdapter implements ProductoPersistencePort { // 
     public Optional<ProductoInventarioResponse> obtenerProductoInventarioPorId(UUID id) {
         return null;
     }
+
+    @Override
+    public List<Producto> registrarVariosProductos(List<Producto> productos) {
+
+        List<ProductoEntity> listaProductos = productos
+                .stream()
+                .map(ProductoPersistenceMapperManual::toEntity)
+                .toList();
+
+        List<ProductoEntity> productosGuardados = repository.saveAll(listaProductos);
+
+        return productosGuardados
+                .stream()
+                .map(ProductoPersistenceMapperManual::toModel)
+                .toList();
+    }
+
 
 }

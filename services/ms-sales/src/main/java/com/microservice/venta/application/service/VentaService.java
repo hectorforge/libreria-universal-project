@@ -33,11 +33,13 @@ public class VentaService implements VentaServicePort {
 
     @Override
     public VentaModel guardarVenta(VentaModel ventaModel) {
+        ventaModel.validar();
         return ventaPersistencePort.guardarVenta(ventaModel);
     }
 
     @Override
     public VentaModel actualizarVenta(UUID id, VentaModel ventaModel) {
+        ventaModel.validar();
         return ventaPersistencePort.actualizarVenta(id, ventaModel);
     }
 
