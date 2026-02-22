@@ -42,6 +42,15 @@ public class FacturacionEntity {
     private String estado;
 
     @OneToMany(mappedBy = "facturacion", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    List<DetalleFacturaEntity> detalles = new ArrayList<>();
+    private List<DetalleFacturaEntity> detalles = new ArrayList<>();
+
+    public void agregarDetalle(DetalleFacturaEntity detalle) {
+        detalles.add(detalle);
+        detalle.setFacturacion(this);
+    }
+
+    public void limpiarDetalles() {
+        detalles.clear();
+    }
 
 }
