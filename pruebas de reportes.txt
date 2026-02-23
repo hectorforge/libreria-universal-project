@@ -1,0 +1,8 @@
+Reporte Financiero:
+http://localhost:8088/api/v1/reports/sales/performance?startDate=2024-01-01&endDate=2024-05-01
+
+Top Sellers:
+http://localhost:8088/api/v1/reports/products/top-sellers?startDate=2024-01-01&endDate=2024-05-01
+
+Clientes VIP:
+http://localhost:8088/api/v1/reports/clients/vip?startDate=2024-01-01&endDate=2024-05-01

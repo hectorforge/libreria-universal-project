@@ -1,21 +1,23 @@
 package com.reporte.dto.inventory;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto {
+    @JsonProperty("id")
     private String id;
-    private String code;
+
+    @JsonProperty("nombre")
     private String name;
-    private BigDecimal currentPrice;
+
+    @JsonProperty("categoria")
     private CategoryDto category;
 
     @Data
@@ -23,7 +25,7 @@ public class ProductDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CategoryDto {
-        private String id;
+        @JsonProperty("nombre")
         private String name;
     }
 }

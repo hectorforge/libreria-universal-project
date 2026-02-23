@@ -6,8 +6,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "ms-inventory", fallback = InventoryClientFallback.class)
+// 8084 como valor seguro por defecto
+@FeignClient(name = "ms-inventory", url = "${app.clients.inventory-url:http://localhost:8084}")
 public interface InventoryClient {
-    @GetMapping("/api/v1/products/{id}")
+
+    @GetMapping("/api/productos/v1/obtener/{id}")
     OperationResult<ProductDto> getProductById(@PathVariable("id") String id);
 }

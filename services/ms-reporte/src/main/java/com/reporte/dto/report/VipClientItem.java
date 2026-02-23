@@ -13,6 +13,5 @@ import java.math.BigDecimal;
 public class VipClientItem {
     private String clientName;
     private String email;
-    private String phone;
     private BigDecimal totalPurchased;
 }
