@@ -14,4 +14,5 @@ public interface IClienteServiceInPort {
     OperationResult<Cliente> getClienteById(UUID id);
     OperationResult<PagedResult<Cliente>> getAllClientes(ClienteFiltro filtros, int page, int size);
     OperationResult<Cliente> syncWithKeycloak(Cliente cliente);
+    OperationResult<Cliente> findByKeycloakId(String keycloakId);
 }
