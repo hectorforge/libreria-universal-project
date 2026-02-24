@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ClienteService implements IClienteServiceInPort {
-    private IClienteRepositoryOutPort clienteRepository;
+    private final IClienteRepositoryOutPort clienteRepository;
 
     @Override
     public OperationResult<Cliente> create(Cliente cliente) {
@@ -110,18 +110,73 @@ public class ClienteService implements IClienteServiceInPort {
         }
     }
 
+//    @Override
+//    public OperationResult<Cliente> syncWithKeycloak(Cliente cliente) {
+//        try {
+//            return clienteRepository.findByKeycloakId(cliente.getKeycloakId())
+//                    .map(OperationResult::success)
+//                    .orElseGet(() -> {
+//                        return create(cliente);
+//                    });
+//        } catch (Exception e) {
+//            return OperationResult.failureSingle(
+//                    ErrorCatalog.GENERIC_ERROR.getErrorCode(),
+//                    "Error durante la sincronización de identidad: " + e.getMessage()
+//            );
+//        }
+//    }
+
     @Override
     public OperationResult<Cliente> syncWithKeycloak(Cliente cliente) {
         try {
-            return clienteRepository.findByKeycloakId(cliente.getKeycloakId())
-                    .map(OperationResult::success)
-                    .orElseGet(() -> {
-                        return create(cliente);
-                    });
+            Optional<Cliente> existenteOpt = clienteRepository.findByKeycloakId(cliente.getKeycloakId());
+
+            if (existenteOpt.isPresent()) {
+                Cliente existente = existenteOpt.get();
+                existente.setNombre(cliente.getNombre());
+                existente.setApellidos(cliente.getApellidos());
+                existente.setEmail(cliente.getEmail());
+                existente.setTipoPersona(cliente.getTipoPersona());
+                existente.setTipoDocumento(cliente.getTipoDocumento());
+                existente.setNumeroDocumento(cliente.getNumeroDocumento());
+                existente.setRol(cliente.getRol());
+                existente.setDateUpdated(LocalDateTime.now());
+
+                Cliente actualizado = clienteRepository.save(existente);
+                return OperationResult.success(actualizado);
+            } else {
+                // Nuevo usuario
+                cliente.setId(UUID.randomUUID());
+                cliente.setDateCreated(LocalDateTime.now());
+                cliente.setNumeroDocumento(cliente.getNumeroDocumento());
+                cliente.setDateUpdated(LocalDateTime.now());
+                cliente.setActive(true);
+                cliente.setDeleted(false);
+
+                Cliente nuevo = clienteRepository.save(cliente);
+                return OperationResult.success(nuevo);
+            }
         } catch (Exception e) {
             return OperationResult.failureSingle(
                     ErrorCatalog.GENERIC_ERROR.getErrorCode(),
                     "Error durante la sincronización de identidad: " + e.getMessage()
+            );
+        }
+    }
+
+    @Override
+    public OperationResult<Cliente> findByKeycloakId(String keycloakId) {
+        try {
+            return clienteRepository.findByKeycloakId(keycloakId)
+                    .map(OperationResult::success)
+                    .orElseGet(() -> OperationResult.failureSingle(
+                            ErrorCatalog.CLIENTE_NOT_FOUND.getErrorCode(),
+                            ErrorCatalog.CLIENTE_NOT_FOUND.getErrorMessage()
+                    ));
+        } catch (Exception e) {
+            return OperationResult.failureSingle(
+                    ErrorCatalog.GENERIC_ERROR.getErrorCode(),
+                    "Error al buscar cliente: " + e.getMessage()
             );
         }
     }

@@ -48,6 +48,7 @@ public class ClienteDomainEntityMapper {
         entity.setEmail(cliente.getEmail());
         entity.setTipoPersona(cliente.getTipoPersona());
         entity.setTipoDocumento(cliente.getTipoDocumento());
+        entity.setNumeroDocumento(cliente.getNumeroDocumento());
         entity.setRol(cliente.getRol());
 
         return entity;
