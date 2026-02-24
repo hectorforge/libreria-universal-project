@@ -3,7 +3,7 @@ package com.microservice.venta.application.ports.input;
 import com.microservice.venta.domain.model.VentaModel;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.DniResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
-import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaReactivoResponse;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.feign.VentaCompletaFeign;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
@@ -25,7 +25,7 @@ public interface VentaServicePort {
     List<VentaModel> listarVentasPorFechas(LocalDate fechaDesde, LocalDate fechaHasta);
 
     // Otros métodos específicos pueden ser añadidos aquí según los requisitos del negocio - reactivo
-    Mono<VentaReactivoResponse> obtenerVentaReactivoPorId(UUID id);
+    List<VentaCompletaFeign> listarVentasCompletasFeign();
 
     //Sunat
     public Mono<SunatResponse> consultarRuc(String ruc);

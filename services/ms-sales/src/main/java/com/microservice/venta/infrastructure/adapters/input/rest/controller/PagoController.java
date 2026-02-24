@@ -12,6 +12,7 @@ import static com.microservice.venta.shared.ErrorCatalog.*;
 import static com.microservice.venta.shared.OperationResult.*;
 import static com.microservice.venta.shared.ResultCode.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/pagos")
 @RequiredArgsConstructor

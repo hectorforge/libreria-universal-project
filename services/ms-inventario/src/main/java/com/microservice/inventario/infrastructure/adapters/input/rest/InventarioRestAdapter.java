@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/inventario")
@@ -69,7 +70,7 @@ public class InventarioRestAdapter {
     }
 
     // Manejo de stock (entrada / salida)
-    @PutMapping("/v1/api/manejo-stock/{productoId}")
+    @PutMapping("/v1/manejo-stock/{productoId}")
     public ResponseEntity<?> manejarStock(
             @PathVariable UUID productoId,
             @RequestParam Integer cantidad,

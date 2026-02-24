@@ -5,13 +5,19 @@ import com.microservice.venta.domain.model.VentaModel;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.request.VentaRequest;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.DetalleVentaResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaResponse;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.feign.DetalleVentaCompletaFeign;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.feign.VentaCompletaFeign;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class VentaRestMapper {
+
+    private final DetalleVentaRestMapper detalleVentaRestMapper;
 
     public VentaResponse toResponse(VentaModel response) {
 
@@ -41,6 +47,25 @@ public class VentaRestMapper {
 
         return VentaModel.builder()
                 .clienteId(request.getClienteId())
+                .detalles(detalles)
+                .build();
+    }
+
+    public VentaCompletaFeign toVentaCompletaFeign(VentaModel model) {
+
+        List<DetalleVentaCompletaFeign> detalles = model.getDetalles() != null ?
+                model.getDetalles().stream()
+                        .map(detalleVentaRestMapper::toDetalleVentaCompletaFeign)
+                        .toList() : List.of();
+
+        return VentaCompletaFeign.builder()
+                .id(model.getId())
+                .codigo(model.getCodigo())
+                .clienteId(model.getClienteId())
+                .total(model.getTotal())
+                .fecha(model.getFecha())
+                .activo(model.isActivo())
+                .estado(model.getEstado())
                 .detalles(detalles)
                 .build();
     }

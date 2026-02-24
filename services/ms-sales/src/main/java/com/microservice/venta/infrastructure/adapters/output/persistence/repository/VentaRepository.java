@@ -1,12 +1,10 @@
 package com.microservice.venta.infrastructure.adapters.output.persistence.repository;
 
-import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaReactivoResponse;
 import com.microservice.venta.infrastructure.adapters.output.persistence.entity.VentaEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +20,7 @@ public interface VentaRepository extends JpaRepository<VentaEntity, UUID> {
 
     // Listar todas las ventas con sus detalles asociados
     @EntityGraph(attributePaths = "detalles")
-    @Query("SELECT v FROM VentaEntity v LEFT JOIN FETCH v.detalles")
+    @Query("SELECT v FROM VentaEntity v LEFT JOIN FETCH v.detalles WHERE v.activo = true")
     List<VentaEntity> listarVentas();
 
     // Obtener ventas por ID de cliente, incluyendo los detalles asociados
