@@ -15,6 +15,7 @@ import com.microservice.cliente.infrastructure.rest.cliente.validators.CrearClie
 import com.microservice.cliente.infrastructure.security.JwtUserExtractor;
 import com.microservice.cliente.infrastructure.security.dto.UsuarioInfo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ import java.util.UUID;
 @RequestMapping("/api/clientes")
 @Tag(name = "Clientes", description = "API para la gestión de clientes. Permite crear, actualizar, consultar, eliminar y listar clientes con filtros y paginación.")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ClienteRestController {
 
     private final IClienteServiceInPort clienteServiceInPort;
