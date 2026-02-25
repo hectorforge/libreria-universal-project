@@ -5,6 +5,7 @@ import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.Inv
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.InventarioCreateRequest;
 import com.microservice.inventario.shared.response.OperationResult;
 import com.microservice.inventario.shared.response.TipoMovimiento;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/inventario")
 @Tag(name = "Inventario", description = "API para la gestión de inventario. Permite registrar stock inicial, manejar stock (entrada/salida), consultar stock actual y validar disponibilidad.")
+@SecurityRequirement(name = "bearerAuth")
 public class InventarioRestAdapter {
 
     private final InventarioServicePort servicePort;

@@ -9,6 +9,7 @@ import com.microservice.inventario.infrastructure.adapters.input.rest.model.resp
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoResponse;
 import com.microservice.inventario.shared.response.OperationResult;
 import com.microservice.inventario.shared.response.pagination.PaginaResult;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/productos")
 @Tag(name = "Producto", description = "API para la gestión de productos. Permite crear, actualizar, consultar, eliminar y listar productos, así como obtener detalles de inventario.")
+@SecurityRequirement(name = "bearerAuth")
 public class ProductoRestAdapter {
 
     private final ProductoServicePort servicePort;

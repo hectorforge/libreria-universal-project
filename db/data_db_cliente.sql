@@ -13,72 +13,144 @@
 -- TipoDocumento: DNI | RUC
 -- ============================================================
 
-INSERT INTO  tb_clientes(
-    id, date_created, date_updated, created_by, updated_by,
-    is_active, is_deleted, keycloak_id, apellidos, nombre,
-    email, tipo_persona, tipo_documento, rol
-) VALUES
-      (
-          -- Cliente 1: Persona natural activa
-          'a1b2c3d4-0001-0001-0001-000000000001',
-          '2024-01-10 08:00:00', '2024-01-10 08:00:00',
-          'admin', 'admin', true, false,
-          'kc-001', 'Ramírez Huanca', 'Jorge',
-          'jorge.ramirez@email.com', 'NATURAL', 'DNI', 'CLIENTE'
-      ),
-      (
-          -- Cliente 2: Persona natural activa
-          'a1b2c3d4-0001-0001-0001-000000000002',
-          '2024-01-11 09:00:00', '2024-01-11 09:00:00',
-          'admin', 'admin', true, false,
-          'kc-002', 'Quispe Mamani', 'Lucía',
-          'lucia.quispe@email.com', 'NATURAL', 'DNI', 'CLIENTE'
-      ),
-      (
-          -- Cliente 3: Persona natural activa
-          'a1b2c3d4-0001-0001-0001-000000000003',
-          '2024-01-12 10:00:00', '2024-01-12 10:00:00',
-          'admin', 'admin', true, false,
-          'kc-003', 'Flores Ccopa', 'Roberto',
-          'roberto.flores@email.com', 'NATURAL', 'DNI', 'CLIENTE'
-      ),
-      (
-          -- Cliente 4: Empresa jurídica activa (colegio)
-          'a1b2c3d4-0001-0001-0001-000000000004',
-          '2024-01-13 11:00:00', '2024-01-13 11:00:00',
-          'admin', 'admin', true, false,
-          'kc-004', 'Educativa Los Andes S.A.C.', 'Institución',
-          'logistica@colegiolosandes.edu.pe', 'JURIDICA', 'RUC', 'CLIENTE'
-      ),
-      (
-          -- Cliente 5: Empresa jurídica activa (estudio de contabilidad)
-          'a1b2c3d4-0001-0001-0001-000000000005',
-          '2024-01-14 12:00:00', '2024-01-14 12:00:00',
-          'admin', 'admin', true, false,
-          'kc-005', 'Contadores Asociados S.R.L.', 'Estudio',
-          'compras@contadoresasociados.com', 'JURIDICA', 'RUC', 'CLIENTE'
-      ),
-      (
-          -- Cliente 6: Persona natural INACTIVA y eliminada
-          'a1b2c3d4-0001-0001-0001-000000000006',
-          '2024-01-15 13:00:00', '2024-03-01 10:00:00',
-          'admin', 'admin', false, true,
-          'kc-006', 'Condori Apaza', 'Miriam',
-          'miriam.condori@email.com', 'NATURAL', 'DNI', 'CLIENTE'
-      ),
-      (
-          -- Cliente 7: Empresa jurídica activa (constructora)
-          'a1b2c3d4-0001-0001-0001-000000000007',
-          '2024-02-01 08:30:00', '2024-02-01 08:30:00',
-          'admin', 'admin', true, false,
-          'kc-007', 'Constructora Horizonte S.A.C.', 'Empresa',
-          'admin@constructorahorizonte.com', 'JURIDICA', 'RUC', 'CLIENTE'
-      ),
-      (
-          -- Cliente 8: Persona natural activa
-          'a1b2c3d4-0001-0001-0001-000000000008',
-          '2024-02-05 09:00:00', '2024-02-05 09:00:00',
-          'admin', 'admin', true, false,
-          'kc-008', 'Ttito Huillca', 'Carmen',
-          'carmen.ttito@email.com', 'NATURAL', 'DNI', 'CLIENTE'
-      );
+INSERT INTO tb_clientes
+(id, apellidos, created_by, date_created, date_updated, email,
+ is_active, is_deleted, keycloak_id, nombre,
+ numero_documento, rol, tipo_documento, tipo_persona, updated_by)
+VALUES
+    (
+        'a1b2c3d4-0001-0001-0001-000000000001',
+        'Ramírez Huanca',
+        'admin',
+        '2024-01-10 08:00:00',
+        '2024-01-10 08:00:00',
+        'jorge.ramirez@email.com',
+        true,
+        false,
+        'kc-001',
+        'Jorge',
+        '12345678',
+        'CLIENTE',
+        'DNI',
+        'NATURAL',
+        'admin'
+    ),
+    (
+        'a1b2c3d4-0001-0001-0001-000000000002',
+        'Quispe Mamani',
+        'admin',
+        '2024-01-11 09:00:00',
+        '2024-01-11 09:00:00',
+        'lucia.quispe@email.com',
+        true,
+        false,
+        'kc-002',
+        'Lucía',
+        '23456789',
+        'CLIENTE',
+        'DNI',
+        'NATURAL',
+        'admin'
+    ),
+    (
+        'a1b2c3d4-0001-0001-0001-000000000003',
+        'Flores Ccopa',
+        'admin',
+        '2024-01-12 10:00:00',
+        '2024-01-12 10:00:00',
+        'roberto.flores@email.com',
+        true,
+        false,
+        'kc-003',
+        'Roberto',
+        '34567890',
+        'CLIENTE',
+        'DNI',
+        'NATURAL',
+        'admin'
+    ),
+    (
+        'a1b2c3d4-0001-0001-0001-000000000004',
+        'Educativa Los Andes S.A.C.',
+        'admin',
+        '2024-01-13 11:00:00',
+        '2024-01-13 11:00:00',
+        'logistica@colegiolosandes.edu.pe',
+        true,
+        false,
+        'kc-004',
+        'Institución',
+        '20123456789',
+        'CLIENTE',
+        'RUC',
+        'JURIDICA',
+        'admin'
+    ),
+    (
+        'a1b2c3d4-0001-0001-0001-000000000005',
+        'Contadores Asociados S.R.L.',
+        'admin',
+        '2024-01-14 12:00:00',
+        '2024-01-14 12:00:00',
+        'compras@contadoresasociados.com',
+        true,
+        false,
+        'kc-005',
+        'Estudio',
+        '20567890123',
+        'CLIENTE',
+        'RUC',
+        'JURIDICA',
+        'admin'
+    ),
+    (
+        'a1b2c3d4-0001-0001-0001-000000000006',
+        'Condori Apaza',
+        'admin',
+        '2024-01-15 13:00:00',
+        '2024-03-01 10:00:00',
+        'miriam.condori@email.com',
+        false,
+        true,
+        'kc-006',
+        'Miriam',
+        '45678901',
+        'CLIENTE',
+        'DNI',
+        'NATURAL',
+        'admin'
+    ),
+    (
+        'a1b2c3d4-0001-0001-0001-000000000007',
+        'Constructora Horizonte S.A.C.',
+        'admin',
+        '2024-02-01 08:30:00',
+        '2024-02-01 08:30:00',
+        'admin@constructorahorizonte.com',
+        true,
+        false,
+        'kc-007',
+        'Empresa',
+        '20987654321',
+        'CLIENTE',
+        'RUC',
+        'JURIDICA',
+        'admin'
+    ),
+    (
+        'a1b2c3d4-0001-0001-0001-000000000008',
+        'Ttito Huillca',
+        'admin',
+        '2024-02-05 09:00:00',
+        '2024-02-05 09:00:00',
+        'carmen.ttito@email.com',
+        true,
+        false,
+        'kc-008',
+        'Carmen',
+        '56789012',
+        'CLIENTE',
+        'DNI',
+        'NATURAL',
+        'admin'
+    );

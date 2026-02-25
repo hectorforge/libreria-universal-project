@@ -7,6 +7,7 @@ import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.Mov
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.MovimientoInventarioCreateRequest;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.MovimientoInventarioResponse;
 import com.microservice.inventario.shared.response.OperationResult;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/movimientos")
+@SecurityRequirement(name = "bearerAuth")
 public class MovimientoInventarioRestAdapter {
 
     private final MovimientoServicePort servicePort;

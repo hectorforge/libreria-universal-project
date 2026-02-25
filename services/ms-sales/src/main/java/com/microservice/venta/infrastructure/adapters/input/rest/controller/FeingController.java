@@ -5,6 +5,7 @@ import com.microservice.venta.infrastructure.adapters.input.rest.mapper.DetalleV
 import com.microservice.venta.infrastructure.adapters.input.rest.mapper.VentaRestMapper;
 import com.microservice.venta.infrastructure.adapters.output.client.response.ProductoFeignClient;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import static com.microservice.venta.shared.OperationResult.isSuccess;
 @RequestMapping("/api/ventas-feign")
 @RequiredArgsConstructor
 @Tag(name = "Feing", description = "API para probar la comunicación entre microservicios utilizando Feign Client. Permite obtener detalles de productos desde el microservicio de inventario para verificar la integración y el funcionamiento correcto de Feign Client.")
+@SecurityRequirement(name = "bearerAuth")
 public class FeingController {
 
     private final ProductoFeignClient productoFeignClient;

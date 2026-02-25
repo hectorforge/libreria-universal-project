@@ -4,6 +4,7 @@ import com.microservice.venta.application.service.FacturacionService;
 import com.microservice.venta.infrastructure.adapters.input.rest.mapper.FacturaRestMapper;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.request.FacturaRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import static com.microservice.venta.shared.ResultCode.*;
 @RequestMapping("/api/facturas")
 @RequiredArgsConstructor
 @Tag(name = "Facturas", description = "API para la gestión de Facturas. Permite crear, actualizar, consultar, eliminar y listar facturas con filtros y paginación.")
+@SecurityRequirement(name = "bearerAuth")
 public class FacturaRestController {
 
 

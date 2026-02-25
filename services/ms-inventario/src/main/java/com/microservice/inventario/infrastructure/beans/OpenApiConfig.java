@@ -10,13 +10,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
+
     @Bean
     public OpenAPI assetOpenAPI() {
+
         final String securitySchemeName = "bearerAuth";
+
         return new OpenAPI()
                 .info(new Info()
-                        .title("Asset Service API")
-                        .description("API de gestión de activos")
+                        .title("Cliente Service API")
+                        .description("API de gestión de clientes")
                         .version("v1"))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()

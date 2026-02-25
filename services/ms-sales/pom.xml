@@ -92,13 +92,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-<<<<<<< HEAD
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-	</dependencies>
-=======
 
 		<!-- Proteccion de los servicios -->
 		<dependency>
@@ -111,7 +109,7 @@
 		</dependency>
 		<!---->
     </dependencies>
->>>>>>> feature/hectorforge
+
     <dependencyManagement>
         <dependencies>
             <dependency>

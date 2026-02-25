@@ -4,6 +4,7 @@ import com.microservice.inventario.application.ports.input.CategoriaServicePort;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.CategoriaResponseMapperManual;
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.CategoriaCreateRequest;
 import com.microservice.inventario.shared.response.OperationResult;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/categoria")
 @Tag(name = "Categoria", description = "API para la gestión de categorías. Permite crear, actualizar, consultar, eliminar y listar categorías.")
+@SecurityRequirement(name = "bearerAuth")
 public class CategoriaRestAdapter {
 
     private final CategoriaServicePort servicePort;

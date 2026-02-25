@@ -7,6 +7,7 @@ import com.microservice.venta.infrastructure.adapters.input.rest.model.response.
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
 import com.microservice.venta.infrastructure.adapters.output.persistence.implementacion.VentaPersistenceAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import static com.microservice.venta.shared.ResultCode.*;
 @RequestMapping("/api/ventas")
 @RequiredArgsConstructor
 @Tag(name = "Ventas", description = "API para la gestión de Ventas. Permite crear, actualizar, consultar, eliminar y listar ventas con filtros y paginación.")
+@SecurityRequirement(name = "bearerAuth")
 public class VentaRestController {
 
     private final VentaService service;
