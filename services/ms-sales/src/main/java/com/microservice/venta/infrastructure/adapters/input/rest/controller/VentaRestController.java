@@ -7,6 +7,7 @@ import com.microservice.venta.infrastructure.adapters.input.rest.model.response.
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
 import com.microservice.venta.infrastructure.adapters.output.persistence.implementacion.VentaPersistenceAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,12 @@ import static com.microservice.venta.shared.ErrorCatalog.*;
 import static com.microservice.venta.shared.OperationResult.*;
 import static com.microservice.venta.shared.ResultCode.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/ventas")
 @RequiredArgsConstructor
-@Tag(name = "Clientes", description = "API para la gestión de Ventas. Permite crear, actualizar, consultar, eliminar y listar ventas con filtros y paginación.")
+@Tag(name = "Ventas", description = "API para la gestión de Ventas. Permite crear, actualizar, consultar, eliminar y listar ventas con filtros y paginación.")
+@SecurityRequirement(name = "bearerAuth")
 public class VentaRestController {
 
     private final VentaService service;
@@ -81,7 +84,6 @@ public class VentaRestController {
                 "Ventas", 200));
     }
 
-
     @Operation(
             summary = "Listar ventas por fechas",
             description = "Lista las ventas registradas entre dos fechas específicas. Requiere una fecha de inicio y una fecha de fin. Devuelve una lista de ventas dentro del rango de fechas o un mensaje indicando que no hay ventas disponibles.")
@@ -93,12 +95,29 @@ public class VentaRestController {
                 "Ventas", 200));
     }
 
+    @Operation(
+            summary = "Anular una venta",
+            description = "Anula una venta específica utilizando su ID. Cambia el estado de la venta a anulada. Devuelve un mensaje indicando que la venta fue anulada exitosamente o un error si no se encontró la venta.")
+    @DeleteMapping("/v1/anular/{id}")
+    public ResponseEntity<?> anularVenta(@PathVariable UUID id) {
+        service.cancelarVenta(id);
+        return ResponseEntity.ok(isSuccess(
+                null, "Venta anulada exitosamente", 200));
+    }
+
+    @Operation(
+            summary = "Obtener datos de RUC",
+            description = "Consulta los datos de una empresa utilizando su número de RUC. Requiere el número de RUC como parámetro. Devuelve los datos de la empresa asociados al RUC o un error si no se encontró.")
     @GetMapping("/sunat/ruc/{numero}")
     public Mono<SunatResponse> consultarRuc(@PathVariable String numero) {
         return service.consultarRuc(numero);
     }
 
-    @GetMapping("/reniec/dni/{numero}")
+    @Operation(
+            summary = "Obtener datos de DNI",
+            description = "Consulta los datos de una persona utilizando su número de DNI. Requiere el número de DNI como parámetro. Devuelve los datos de la persona asociados al DNI o un error si no se encontró.")
+
+    @GetMapping("/sunat/dni/{numero}")
     public Mono<DniResponse> consultarDni(@PathVariable String numero) {
         return service.consultarDni(numero);
     }

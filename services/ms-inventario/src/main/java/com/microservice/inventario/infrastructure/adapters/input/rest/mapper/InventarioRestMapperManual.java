@@ -30,7 +30,6 @@ public class InventarioRestMapperManual {
         producto.setId(request.getProductoId());
 
         return Inventario.builder()
-                .id(request.getProductoId())
                 .productoId(producto)
                 .stockActual(request.getStockActual())
                 .stockMinimo(request.getStockMinimo())

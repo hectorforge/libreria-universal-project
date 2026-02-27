@@ -5,7 +5,7 @@ import com.microservice.venta.application.ports.output.VentaPersistencePort;
 import com.microservice.venta.domain.model.VentaModel;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.DniResponse;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.response.SunatResponse;
-import com.microservice.venta.infrastructure.adapters.input.rest.model.response.VentaReactivoResponse;
+import com.microservice.venta.infrastructure.adapters.input.rest.model.response.feign.VentaCompletaFeign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -33,11 +33,13 @@ public class VentaService implements VentaServicePort {
 
     @Override
     public VentaModel guardarVenta(VentaModel ventaModel) {
+        ventaModel.validar();
         return ventaPersistencePort.guardarVenta(ventaModel);
     }
 
     @Override
     public VentaModel actualizarVenta(UUID id, VentaModel ventaModel) {
+        ventaModel.validar();
         return ventaPersistencePort.actualizarVenta(id, ventaModel);
     }
 
@@ -57,8 +59,8 @@ public class VentaService implements VentaServicePort {
     }
 
     @Override
-    public Mono<VentaReactivoResponse> obtenerVentaReactivoPorId(UUID id) {
-        return null;
+    public List<VentaCompletaFeign> listarVentasCompletasFeign() {
+        return ventaPersistencePort.listarVentasCompletasFeign();
     }
 
     @Override

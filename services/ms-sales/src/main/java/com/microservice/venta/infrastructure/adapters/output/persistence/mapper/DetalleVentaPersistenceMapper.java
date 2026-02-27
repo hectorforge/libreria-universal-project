@@ -25,4 +25,5 @@ public class DetalleVentaPersistenceMapper {
                 .subtotal(model.getSubtotal())
                 .build();
     }
+
 }

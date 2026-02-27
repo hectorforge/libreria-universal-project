@@ -5,6 +5,7 @@ import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.Inv
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.request.InventarioCreateRequest;
 import com.microservice.inventario.shared.response.OperationResult;
 import com.microservice.inventario.shared.response.TipoMovimiento;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/inventarios")
 @Tag(name = "Inventario", description = "API para la gestión de inventario. Permite registrar stock inicial, manejar stock (entrada/salida), consultar stock actual y validar disponibilidad.")
+@SecurityRequirement(name = "bearerAuth")
 public class InventarioRestAdapter {
 
     private final InventarioServicePort servicePort;
@@ -70,7 +73,7 @@ public class InventarioRestAdapter {
     }
 
     // Manejo de stock (entrada / salida)
-    @PutMapping("/v1/api/manejo-stock/{productoId}")
+    @PutMapping("/v1/manejo-stock/{productoId}")
     public ResponseEntity<?> manejarStock(
             @PathVariable UUID productoId,
             @RequestParam Integer cantidad,

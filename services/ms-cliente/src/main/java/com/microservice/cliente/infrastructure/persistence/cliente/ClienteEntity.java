@@ -60,6 +60,9 @@ public class ClienteEntity extends Cliente {
     @Column(name = "tipo_persona", length = 20, nullable = false)
     private TipoCliente tipoPersona;
 
+    @Column(name = "numero_documento", length = 30, nullable = false)
+    private String numeroDocumento;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_documento", length = 20)
     private TipoDocumento tipoDocumento;

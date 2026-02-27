@@ -3,6 +3,7 @@ package com.microservice.venta.infrastructure.adapters.input.rest.controller;
 import com.microservice.venta.application.service.PagoService;
 import com.microservice.venta.infrastructure.adapters.input.rest.mapper.PagoRestMapper;
 import com.microservice.venta.infrastructure.adapters.input.rest.model.request.PagoRequest;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,12 @@ import static com.microservice.venta.shared.ErrorCatalog.*;
 import static com.microservice.venta.shared.OperationResult.*;
 import static com.microservice.venta.shared.ResultCode.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/pagos")
 @RequiredArgsConstructor
 @Tag(name = "Pagos", description = "API para la gestión de Pagos. Permite crear, actualizar, consultar, eliminar y listar pagos con filtros y paginación.")
+@SecurityRequirement(name = "bearerAuth")
 public class PagoController {
 
     private final PagoService service;

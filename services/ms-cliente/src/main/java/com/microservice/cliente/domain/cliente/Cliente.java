@@ -10,6 +10,7 @@ public class Cliente extends BaseEntity {
     private String email;
     private TipoCliente tipoPersona;
     private TipoDocumento tipoDocumento;
+    private String numeroDocumento;
     private String rol;
 
     public Cliente() {
@@ -69,5 +70,13 @@ public class Cliente extends BaseEntity {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getNumeroDocumento() {
+        return numeroDocumento;
+    }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
     }
 }

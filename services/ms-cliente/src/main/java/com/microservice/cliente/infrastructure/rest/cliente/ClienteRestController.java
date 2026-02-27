@@ -12,12 +12,18 @@ import com.microservice.cliente.infrastructure.rest.cliente.dto.ClienteResponse;
 import com.microservice.cliente.infrastructure.rest.mappers.ClienteDomainDtoMapper;
 import com.microservice.cliente.infrastructure.rest.cliente.validators.ActualizarClienteGrupo;
 import com.microservice.cliente.infrastructure.rest.cliente.validators.CrearClienteGrupo;
+import com.microservice.cliente.infrastructure.security.JwtUserExtractor;
+import com.microservice.cliente.infrastructure.security.dto.UsuarioInfo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
@@ -33,9 +39,11 @@ import java.util.UUID;
 @RequestMapping("/api/clientes")
 @Tag(name = "Clientes", description = "API para la gestión de clientes. Permite crear, actualizar, consultar, eliminar y listar clientes con filtros y paginación.")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ClienteRestController {
 
     private final IClienteServiceInPort clienteServiceInPort;
+    private final JwtUserExtractor userExtractor;
     private final ClienteDomainDtoMapper mapper;
 
     @Operation(
@@ -43,6 +51,7 @@ public class ClienteRestController {
             description = "Crea un nuevo cliente en el sistema. Devuelve el cliente creado o un error si falla la operación.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('USUARIO','TRABAJADOR','VENDEDOR','ADMINISTRADOR')")
     public OperationResult<ClienteResponse> crear(@Validated(CrearClienteGrupo.class) @RequestBody ClienteRequest request) {
         OperationResult<Cliente> result = clienteServiceInPort.create(mapper.toDomain(request));
         if (result.isSuccess()) {
@@ -54,48 +63,14 @@ public class ClienteRestController {
     @Operation(
             summary = "Sincronización inicial con Keycloak",
             description = "Recibe el token de identidad de Keycloak, extrae la información del usuario y lo registra en la base de datos local si no existe. Es el primer paso tras un login exitoso en el frontend.")
-    @PostMapping("/registro-inicial")
+    @PostMapping("/sync")
+    @PreAuthorize("hasAnyRole('USUARIO','TRABAJADOR','VENDEDOR','ADMINISTRADOR')")
     public OperationResult<ClienteResponse> sync(Authentication authentication) {
 
-        JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) authentication;
-        Jwt jwt = jwtAuth.getToken();
+        Cliente cliente = userExtractor.toCliente(authentication);
 
-        Cliente cliente = new Cliente();
-        cliente.setKeycloakId(jwt.getClaimAsString("sub"));
-        cliente.setNombre(jwt.getClaimAsString("given_name"));
-        cliente.setApellidos(jwt.getClaimAsString("family_name"));
-        cliente.setEmail(jwt.getClaimAsString("email"));
-
-        // Mapeo seguro de Enums
-        try {
-            String tipoPersona = jwt.getClaimAsString("type_person");
-            if (tipoPersona != null) cliente.setTipoPersona(TipoCliente.valueOf(tipoPersona.toUpperCase()));
-
-            String tipoDoc = jwt.getClaimAsString("type_document");
-            if (tipoDoc != null) cliente.setTipoDocumento(TipoDocumento.valueOf(tipoDoc.toUpperCase()));
-        } catch (IllegalArgumentException e) {
-            // Si el valor del token no coincide con el Enum, podrías registrar un log o asignar null
-        }
-
-        // Lógica de extracción de roles del Realm
-        Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
-        List<String> roles = (realmAccess != null && realmAccess.get("roles") != null)
-                ? (List<String>) realmAccess.get("roles")
-                : Collections.emptyList();
-
-        // Prioridad de roles para el campo "rol" de tu entidad
-        if (roles.contains("ADMINISTRADOR")) {
-            cliente.setRol("ADMINISTRADOR");
-        } else if (roles.contains("VENDEDOR")) {
-            cliente.setRol("VENDEDOR");
-        } else {
-            cliente.setRol("USUARIO");
-        }
-
-        // 2. Ejecución del Caso de Uso (Application Layer)
         OperationResult<Cliente> result = clienteServiceInPort.syncWithKeycloak(cliente);
 
-        // 3. Mapeo de Dominio a Respuesta (DTO)
         if (result.isSuccess()) {
             return OperationResult.success(mapper.toResponse(result.data()));
         }
@@ -108,6 +83,7 @@ public class ClienteRestController {
             description = "Actualiza un cliente existente. Valida que el cliente exista y que el ID proporcionado coincida. Devuelve el cliente actualizado o un error si falla la operación.")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USUARIO','TRABAJADOR','VENDEDOR','ADMINISTRADOR')")
     public OperationResult<ClienteResponse> actualizar(
             @Validated(ActualizarClienteGrupo.class) @RequestBody ClienteRequest request,
             @PathVariable UUID id) {
@@ -123,6 +99,7 @@ public class ClienteRestController {
             description = "Recupera un cliente utilizando su ID único. Devuelve el cliente si existe o un error indicando que no se encontró.")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USUARIO','TRABAJADOR','VENDEDOR','ADMINISTRADOR')")
     public OperationResult<ClienteResponse> obtenerPorId(@PathVariable UUID id) {
         OperationResult<Cliente> result = clienteServiceInPort.getClienteById(id);
         if (result.isSuccess()) {
@@ -136,6 +113,7 @@ public class ClienteRestController {
             description = "Elimina un cliente por su ID. Devuelve true si se eliminó correctamente o un error si no existe.")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public OperationResult<Boolean> eliminar(@PathVariable UUID id) {
         return clienteServiceInPort.deleteById(id);
     }
@@ -144,6 +122,7 @@ public class ClienteRestController {
             summary = "Listar clientes con filtros y paginación",
             description = "Lista clientes según filtros opcionales (apellidos, nombre, email, tipo de cliente) y permite paginación. Devuelve un PagedResult con los clientes encontrados o un error en caso de fallo.")
     @GetMapping
+    @PreAuthorize("hasAnyRole('USUARIO','TRABAJADOR','VENDEDOR','ADMINISTRADOR')")
     public OperationResult<PagedResult<ClienteResponse>> listar(
             @RequestParam(required = false) String apellidos,
             @RequestParam(required = false) String nombre,
@@ -180,9 +159,21 @@ public class ClienteRestController {
         return OperationResult.failureSingle(result.errorCode(), result.errorMessage());
     }
 
-    @GetMapping("/dummy")
-    public String dummy(){
-        log.info("Paso por el dummy");
-        return "Soy un dummy";
+//    @GetMapping("/me")
+//    public UsuarioInfo me(Authentication auth) {
+//        return userExtractor.extract(auth);
+//    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('USUARIO','TRABAJADOR','VENDEDOR','ADMINISTRADOR')")
+    public OperationResult<ClienteResponse> me(Authentication auth) {
+        Cliente cliente = userExtractor.toCliente(auth); // Extrae keycloakId del JWT
+        OperationResult<Cliente> result = clienteServiceInPort.findByKeycloakId(cliente.getKeycloakId());
+
+        if(result.isSuccess() && result.data() != null){
+            return OperationResult.success(mapper.toResponse(result.data()));
+        } else {
+            return OperationResult.failureSingle("NOT_FOUND", "Usuario no registrado en la BD interna");
+        }
     }
 }
