@@ -56,7 +56,8 @@ public class InventarioRestAdapter {
 
         servicePort.registrarStockInicial(
                 request.getProductoId(),
-                request.getStockActual()
+                request.getStockActual(),
+                request.getStockMinimo()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(

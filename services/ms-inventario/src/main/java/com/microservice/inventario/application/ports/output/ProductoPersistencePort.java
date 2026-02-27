@@ -26,6 +26,5 @@ public interface ProductoPersistencePort {
 
     List<Producto> registrarVariosProductos(List<Producto> productos);
 
-
     OperationResult<PaginaResult<Producto>> listarPaginado(PaginacionRequest request);
 }

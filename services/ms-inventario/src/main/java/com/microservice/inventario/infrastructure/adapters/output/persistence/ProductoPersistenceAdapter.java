@@ -1,5 +1,6 @@
 package com.microservice.inventario.infrastructure.adapters.output.persistence;
 
+import com.microservice.inventario.application.ports.input.ProductoServicePort;
 import com.microservice.inventario.application.ports.output.ProductoPersistencePort;
 import com.microservice.inventario.application.service.InventarioService;
 import com.microservice.inventario.domain.model.Producto;
@@ -32,6 +33,7 @@ public class ProductoPersistenceAdapter implements ProductoPersistencePort { // 
     private final ProductoPersistenceMapperManual mapperManual;
     private final InventarioService inventarioService;
     private final ProductoRestMapperManual restMapperManual;
+
 
     @Override
     public Optional<Producto> findById(UUID id) {
@@ -69,6 +71,7 @@ public class ProductoPersistenceAdapter implements ProductoPersistencePort { // 
 
     @Override
     public Optional<ProductoInventarioResponse> obtenerProductoInventarioPorId(UUID id) {
+
         return null;
     }
 

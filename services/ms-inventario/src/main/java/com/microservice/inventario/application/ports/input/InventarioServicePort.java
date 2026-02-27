@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface InventarioServicePort {
 
-    void registrarStockInicial(UUID productoId, int cantidad);
+    void registrarStockInicial(UUID productoId, int stockActual, int stockMinimo);
 
     void manejoStock(UUID productoId, int cantidad, TipoMovimiento tipo);//si manejo es true entonces stock ++ si es false - stock
 

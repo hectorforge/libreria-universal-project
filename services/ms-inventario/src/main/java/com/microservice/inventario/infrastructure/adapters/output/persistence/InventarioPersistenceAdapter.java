@@ -5,6 +5,7 @@ import com.microservice.inventario.domain.model.Inventario;
 import com.microservice.inventario.domain.model.Producto;
 import com.microservice.inventario.infrastructure.adapters.input.rest.mapper.InventarioRestMapperManual;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.entity.InventarioEntity;
+import com.microservice.inventario.infrastructure.adapters.output.persistence.entity.ProductoEntity;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.InventarioPersistenceMapper;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.InventarioPersistenceMapperManual;
 import com.microservice.inventario.infrastructure.adapters.output.persistence.mapper.ProductoPersistenceMapperManual;
@@ -34,10 +35,26 @@ public class InventarioPersistenceAdapter implements InventarioPersistencePort {
 
     @Override
     public Inventario save(Inventario inventario) {
+      //  return InventarioPersistenceMapperManual.toModel(
+        //        inventarioRepository.save(
+          //              InventarioPersistenceMapperManual.toEntity(inventario)
+            //    )
+        //);
+   // }
+        // Buscar producto real desde BD
+        ProductoEntity productoEntity = productoRepository.findById(
+                inventario.getProductoId().getId()
+        ).orElseThrow(() -> new RuntimeException("Producto no existe"));
+
+        // Crear inventario entity manualmente
+        InventarioEntity entity = InventarioEntity.builder()
+                .productoId(productoEntity)
+                .stockActual(inventario.getStockActual())
+                .stockMinimo(inventario.getStockMinimo())
+                .build();
+
         return InventarioPersistenceMapperManual.toModel(
-                inventarioRepository.save(
-                        InventarioPersistenceMapperManual.toEntity(inventario)
-                )
+                inventarioRepository.save(entity)
         );
     }
 

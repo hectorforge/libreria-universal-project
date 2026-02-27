@@ -36,6 +36,8 @@ public class ProductoPersistenceMapperManual {
         CategoriaEntity categoria = CategoriaPersistenceMapperManual.ToEntity(model.getCategoria());
 
         return ProductoEntity.builder()
+                //
+                .id(model.getId())
                 .codigo(model.getCodigo())
                 .nombre(model.getNombre())
                 .descripcion(model.getDescripcion())
