@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.math.BigDecimal;
+
 
 @Entity
 @Table(name = "productos")

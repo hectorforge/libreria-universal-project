@@ -18,7 +18,7 @@ import java.util.UUID;
 @CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/inventario")
+@RequestMapping("/api/inventarios")
 @Tag(name = "Inventario", description = "API para la gestión de inventario. Permite registrar stock inicial, manejar stock (entrada/salida), consultar stock actual y validar disponibilidad.")
 @SecurityRequirement(name = "bearerAuth")
 public class InventarioRestAdapter {
@@ -59,7 +59,8 @@ public class InventarioRestAdapter {
 
         servicePort.registrarStockInicial(
                 request.getProductoId(),
-                request.getStockActual()
+                request.getStockActual(),
+                request.getStockMinimo()
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(

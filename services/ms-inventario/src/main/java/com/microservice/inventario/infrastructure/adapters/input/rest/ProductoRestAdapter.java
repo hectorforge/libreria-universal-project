@@ -9,6 +9,7 @@ import com.microservice.inventario.infrastructure.adapters.input.rest.model.resp
 import com.microservice.inventario.infrastructure.adapters.input.rest.model.response.ProductoResponse;
 import com.microservice.inventario.shared.response.OperationResult;
 import com.microservice.inventario.shared.response.pagination.PaginaResult;
+import com.microservice.inventario.shared.response.pagination.PaginacionRequest;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -58,40 +59,6 @@ public class ProductoRestAdapter {
                 OperationResult.isSuccess(response, "Producto obtenido", 200)
         );
     }
-
-    ///PAGINACION
-
-//    @GetMapping("/v1/listar-paginado")
-//    public ResponseEntity<OperationResult<PaginaResult<ProductoResponse>>> listarProductosPaginados(
-//            @RequestParam(defaultValue = "0") int pagina,
-//            @RequestParam(defaultValue = "10") int tamanio,
-//            @RequestParam(defaultValue = "id") String ordenarPor,
-//            @RequestParam(defaultValue = "asc") String direccion
-//    ) {
-//        // Obtener lista completa de productos
-//        List<Producto> productos = servicePort.listarProductos();
-//
-//        // Ordenar y paginar (simple ejemplo)
-//        List<Producto> productosPaginados = productos.stream()
-//                .skip((long) pagina * tamanio)
-//                .limit(tamanio)
-//                .toList();
-//
-//        PaginaResult<ProductoResponse> paginaResult = PaginaResult.of(
-//                restMapper.toProductoResponseList(productosPaginados),
-//                pagina,
-//                tamanio,
-//                productos.size()
-//        );
-//
-//        return ResponseEntity.ok(
-//                OperationResult.successPagination(
-//                        paginaResult,
-//                        "Lista de productos paginados",
-//                        200
-//                )
-//        );
-//    }
 
     // ================= REGISTRAR =================
     @PostMapping("/v1/registrar")
@@ -196,8 +163,26 @@ public class ProductoRestAdapter {
                         200
                 )
         );
+    }
 
+    //==================PAGINACION=============
 
+    @GetMapping("/paginado")
+    public OperationResult<PaginaResult<Producto>> listarProductosPaginados(
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanio,
+            @RequestParam(defaultValue = "nombre") String ordenarPor,
+            @RequestParam(defaultValue = "asc") String direccion
+    ) {
+
+        PaginacionRequest request = PaginacionRequest.builder()
+                .pagina(pagina)
+                .tamanio(tamanio)
+                .ordenarPor(ordenarPor)
+                .direccion(direccion)
+                .build();
+
+        return servicePort.listarPaginado(request);
     }
 
 }

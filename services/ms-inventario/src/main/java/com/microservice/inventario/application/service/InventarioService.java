@@ -22,8 +22,11 @@ public class InventarioService implements InventarioServicePort {
      // Registrar stock inicial del producto
 
     @Override
-    public void registrarStockInicial(UUID productoId, int cantidad) {
+    public void registrarStockInicial(UUID productoId, int stockActual, int stockMinimo) {
 
+        if (persistencePort.obtenerInventarioPorProductoId(productoId).isPresent()) {
+            throw new RuntimeException("El inventario ya existe para este producto");
+        }
 
         Inventario inventario = Inventario.builder()
                 .productoId(
@@ -31,8 +34,8 @@ public class InventarioService implements InventarioServicePort {
                                 .id(productoId)
                                 .build()
                 )
-                .stockActual(cantidad)
-                .stockMinimo(0)
+                .stockActual(stockActual)
+                .stockMinimo(stockMinimo) //ahora sí usa el valor real
                 .build();
 
         persistencePort.save(inventario);
