@@ -27,12 +27,7 @@ spring:
             - id: inventarios
               uri: http://localhost:8084
               predicates:
-                - Path=/api/inventario/**
-
-            - id: pagos
-              uri: http://localhost:8085
-              predicates:
-                - Path=/api/pago/**
+                - Path=/api/**
 
             - id: seguridad
               uri: http://localhost:8086
@@ -42,7 +37,7 @@ spring:
             - id: sales
               uri: http://localhost:8087
               predicates:
-                - Path=/api/venta/**
+                - Path=/api/**
 
   security:
     oauth2:
