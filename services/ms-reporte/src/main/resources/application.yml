@@ -3,3 +3,9 @@ spring:
     name: ms-reporte
   config:
     import: optional:configserver:http://localhost:8888
+
+  # URLs configurables de los microservicios externos
+  app:
+    clients:
+      sales-url: http://localhost:8087
+      inventory-url: http://localhost:8084

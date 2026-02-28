@@ -1,5 +1,6 @@
 package com.reporte.common;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,11 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OperationResult<T> {
+
+    // Esto asegura que lea el JSON si lo mandan como "success" o "isSuccess"
+    @JsonAlias({"success", "isSuccess"})
     private boolean isSuccess;
+
     private T data;
     private String message;
     private Map<String, String> errors;
